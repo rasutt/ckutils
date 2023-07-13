@@ -3,9 +3,20 @@
 # Load devtools package for writing packages
 library(devtools)
 
+# Make new function file
+use_r("plot_exp_pop")
+
 # Load all package functions - simulates the process of building, installing,
 # and attaching (using library()) the package. Ctrl + Shift + L
 load_all()
+
+# Try new functions
+x = plot_exp_pop(
+  sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
+  srvy_yrs = 20
+)
+
+x
 
 # Set random seed for testing
 set.seed(1)
@@ -23,6 +34,9 @@ names(attributes(pop_stud))
 
 # Check the package works. Ctrl + Shift + E
 check()
+
+# Insert roxygen skeleton for function documentation. Inside function code Ctrl
+# + Alt + Shift + R
 
 # Convert roxygen comments into R documentation, and update namespace. Ctrl +
 # Shift + D
