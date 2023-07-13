@@ -1,3 +1,5 @@
+# Following example from https://r-pkgs.org/whole-game.html
+
 # Load devtools package for writing packages
 library(devtools)
 
@@ -25,7 +27,8 @@ names(attributes(pop_stud))
 # Check the package works. Ctrl + Shift + E
 check()
 
-# Convert roxygen comments into R documentation. Ctrl + Shift + D
+# Convert roxygen comments into R documentation, and update namespace. Ctrl +
+# Shift + D
 document()
 
 # Check the help file
@@ -42,3 +45,8 @@ use_test("simpop.R")
 
 # Run tests. Ctrl + Shift + T
 test()
+
+# Add stats package to imports section in description file (required by CRAN).
+# Need to use stats::function_name too I think, and in general for non-base
+# packages
+use_package("stats")
