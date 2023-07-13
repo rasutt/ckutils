@@ -1,3 +1,40 @@
+#' Simulate a population and a study of it
+#'
+#' @param phi The individual survival rate
+#' @param lambda The population growth rate
+#' @param N.init Initial populatin size
+#' @param hist.len Length of simulation
+#' @param srvy.yrs Survey years
+#' @param k Number of survey years
+#' @param f.year Final year of simulation
+#' @param p Capture probability
+#' @param L Number of genotype loci
+#' @param imaf Initial minor allele frequency
+#' @param clvng.p Additional calving probability
+#' @param tmp.emgn Rate of temporary immigration
+#' @param alpha Age of sexual maturity
+#' @param clvng.ints Whether females should be selected for calving by time
+#'   since last calving, producing intervals of standard length
+#'
+#' @return A dataframe with ID, mum, dad, capture, and calving columns, and
+#'   several attributes.
+#' @export
+#'
+#' @examples
+#' # Need a global variable setting births to be stochastic
+#' stch.bths = TRUE
+#'
+#' # Simulate one population and study
+#' pop_stud = SimPopStud(
+#'   phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
+#'   f.year = 20, p = 0.5, L = 10, imaf = 0.5, clvng.p = 0, tmp.emgn = 0,
+#'   alpha = 5, clvng.ints = FALSE
+#' )
+#'
+#' # Look at it
+#' head(pop_stud)
+#' names(attributes(pop_stud))
+
 # Function to simulate a population of animals over time and a mark-recapture
 # study of it.
 
@@ -10,6 +47,8 @@ SimPopStud <- function(
 ) {
   # Record start-time
   s.time <- proc.time()
+
+  stch.bths = T
 
   # Find implied birth rate for mature females surviving to birth year
   # beta <- 2 * (lambda / phi - 1) * (lambda / phi)^alpha
