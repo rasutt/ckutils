@@ -10,9 +10,6 @@ load_all()
 # Set random seed for testing
 set.seed(1)
 
-# Need a global variable setting births to be stochastic
-stch.bths = T
-
 # Simulate one population and study
 pop_stud = SimPopStud(
   phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
@@ -21,7 +18,7 @@ pop_stud = SimPopStud(
 )
 
 # Look at it
-head(pop_stud, 1)
+head(pop_stud)
 names(attributes(pop_stud))
 
 # Check the package works. Ctrl + Shift + E
@@ -50,3 +47,7 @@ test()
 # Need to use stats::function_name too I think, and in general for non-base
 # packages
 use_package("stats")
+
+use_readme_rmd()
+
+build_readme()
