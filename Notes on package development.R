@@ -4,19 +4,19 @@
 library(devtools)
 
 # Make new function file
+use_r("sim_pop")
 use_r("plot_exp_pop")
+rename_files("simpop", "sim_pop")
 
 # Load all package functions - simulates the process of building, installing,
 # and attaching (using library()) the package. Ctrl + Shift + L
 load_all()
 
 # Try new functions
-x = plot_exp_pop(
+plot_exp_pop(
   sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
   srvy_yrs = 20
 )
-
-x
 
 # Set random seed for testing
 set.seed(1)
@@ -42,7 +42,8 @@ check()
 # Shift + D
 document()
 
-# Check the help file
+# Check the help files
+?plot_exp_pop
 ?SimPopStud
 
 # Install package. Ctrl + Shift + B
@@ -52,7 +53,8 @@ install()
 library(ckutils)
 
 # Make test file
-use_test("simpop.R")
+use_test("sim_pop")
+use_test("plot_exp_pop")
 
 # Run tests. Ctrl + Shift + T
 test()
@@ -61,7 +63,7 @@ test()
 # Need to use stats::function_name too I think, and in general for non-base
 # packages
 use_package("stats")
+use_package("graphics")
 
-use_readme_rmd()
-
+# Knit readme with latest version of package
 build_readme()

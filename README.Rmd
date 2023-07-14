@@ -34,7 +34,14 @@ devtools::install_github("rasutt/ckutils")
 This is a basic example which shows you how to simulate a wildlife population and a sampling-survey study of it:
 
 ```{r example}
+# Load close-kin utilities package
 library(ckutils)
+
+# Plot the expected population size for a particular scenario
+plot_exp_pop(
+  sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
+  srvy_yrs = 20
+)
 
 # Set random seed for testing
 set.seed(1)

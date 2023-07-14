@@ -60,17 +60,17 @@ SimPopStud <- function(
 
   # Set birthyears, parents, sexes, times when animals last had a calf, and life
   # statuses for first animals
-  init.ages <- rgeom(n = N.init, prob = 1 - phi / lambda)
+  init.ages <- stats::rgeom(n = N.init, prob = 1 - phi / lambda)
   b.year <- sort(1 - init.ages)
   mum <- rep(NA, N.init)
   dad <- rep(NA, N.init)
-  female <- rbinom(N.init, 1, 0.5)
+  female <- stats::rbinom(N.init, 1, 0.5)
   t.lst.clf <- rep(NA, N.init)
   alive <- rep(T, N.init)
 
   # Set initial genotypes - binary SNPs with zero having initial minor allele
   # frequency
-  gts = array(as.integer(runif(2 * L * N.init) > imaf), c(2, L, N.init))
+  gts = array(as.integer(stats::runif(2 * L * N.init) > imaf), c(2, L, N.init))
 
   # Create vectors for population size and observed survival rates and enter
   # first value
@@ -111,8 +111,8 @@ SimPopStud <- function(
 
     # Find survivors to current year
     alive[alive] <- as.logical(
-      # rbinom(N.t.vec[t - 1], 1, phi * (1 - pmt.emgn * !female[alive]))
-      rbinom(N.t.vec[t - 1], 1, phi)
+      # stats::rbinom(N.t.vec[t - 1], 1, phi * (1 - pmt.emgn * !female[alive]))
+      stats::rbinom(N.t.vec[t - 1], 1, phi)
     )
     phi.obs[t - 1] = sum(alive) / N.t.vec[t - 1]
 
@@ -122,7 +122,7 @@ SimPopStud <- function(
     # If there was at least one possible father find number of calves
     if (length(dads.poss) > 0)
       # Either stochastic or deterministic numbers of births
-      if (stch.bths) n.calves <- rbinom(1, length(mums.poss), beta)
+      if (stch.bths) n.calves <- stats::rbinom(1, length(mums.poss), beta)
     else round(N.t.vec[t - 1] * lambda - sum(alive))
     else n.calves <- 0
 
@@ -157,14 +157,14 @@ SimPopStud <- function(
 
       # Add data for calves
       b.year <- c(b.year, rep(t, n.calves))
-      female <- c(female, rbinom(n.calves, 1, 0.5))
+      female <- c(female, stats::rbinom(n.calves, 1, 0.5))
       t.lst.clf <- c(t.lst.clf, rep(NA, n.calves))
       alive <- c(alive, rep(T, n.calves))
 
       # Add genotypes for calves. Arithmetic seems to be a tiny bit faster. Keep
       # both versions to help with trying in pytorch. If change should also
       # change type of initial genotypes.
-      gt.slct = array(runif(2 * L * n.calves) > 0.5, c(2, L, n.calves))
+      gt.slct = array(stats::runif(2 * L * n.calves) > 0.5, c(2, L, n.calves))
       # gt.clvs = array(F, c(2, L, n.calves))
       # gt.clvs[aperm(array(
       #   c(
@@ -231,7 +231,7 @@ SimPopStud <- function(
   # Change life statuses to capture histories
   # The capture probability depends on male temporary emigration, and calving
   cap.hists[alv.s.yrs] <-
-    rbinom(sum(alv.s.yrs), 1, p * (1 - tmp.emgn * !rep(female, k)[alv.s.yrs]) +
+    stats::rbinom(sum(alv.s.yrs), 1, p * (1 - tmp.emgn * !rep(female, k)[alv.s.yrs]) +
              clvng.hists[alv.s.yrs] * clvng.p)
 
   # Find numbers calving in survey years

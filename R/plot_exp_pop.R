@@ -25,13 +25,13 @@ plot_exp_pop = function(sim_years, exp_N_t, base_yr, exp_N_base, srvy_yrs) {
   )
 
   # Base year and population
-  abline(v = base_yr, h = exp_N_base, col = 2)
+  graphics::abline(v = base_yr, h = exp_N_base, col = 2)
 
   # Surveys
-  abline(v = srvy_yrs, lty = 2)
+  graphics::abline(v = srvy_yrs, lty = 2)
 
   # Add legend
-  legend(
+  graphics::legend(
     "topleft", legend = c("Over time", "In base year", "Survey years"),
     col = c(2, 2, 1), lwd = c(2, 1, 1), lty = c(1, 1, 2)
   )

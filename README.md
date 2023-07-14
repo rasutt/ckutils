@@ -25,30 +25,41 @@ This is a basic example which shows you how to simulate a wildlife
 population and a sampling-survey study of it:
 
 ``` r
+# Load close-kin utilities package
 library(ckutils)
 
-# Set random seed for testing
-set.seed(1)
-
-# Simulate one population and study
-pop_stud = SimPopStud(
-  phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
-  f.year = 20, p = 0.5, L = 10, imaf = 0.5, clvng.p = 0, tmp.emgn = 0,
-  alpha = 5, clvng.ints = F
+# Plot the expected population size for a particular scenario
+plot_exp_pop(
+  sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
+  srvy_yrs = 20
 )
-
-# Look at it
-head(pop_stud)
-#>    ID mum dad C20 Cvg20
-#> 10 10  NA  NA   1     0
-#> 11 11  NA  NA   1     0
-#> 20 20  NA  NA   1     0
-#> 28 28  10  14   1     1
-#> 32 32  21  18   1     0
-#> 39 39   3  19   1     1
-names(attributes(pop_stud))
-#>  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       
-#>  [6] "N.t.vec"     "ns.caps"     "Ns"          "ns.clvng"    "alive"      
-#> [11] "alv.s.yrs"   "f.age"       "mum"         "dad"         "ID"         
-#> [16] "ind.gts"
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />
+
+    #> NULL
+
+    # Set random seed for testing
+    set.seed(1)
+
+    # Simulate one population and study
+    pop_stud = SimPopStud(
+      phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
+      f.year = 20, p = 0.5, L = 10, imaf = 0.5, clvng.p = 0, tmp.emgn = 0,
+      alpha = 5, clvng.ints = F
+    )
+
+    # Look at it
+    head(pop_stud)
+    #>    ID mum dad C20 Cvg20
+    #> 10 10  NA  NA   1     0
+    #> 11 11  NA  NA   1     0
+    #> 20 20  NA  NA   1     0
+    #> 28 28  10  14   1     1
+    #> 32 32  21  18   1     0
+    #> 39 39   3  19   1     1
+    names(attributes(pop_stud))
+    #>  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       
+    #>  [6] "N.t.vec"     "ns.caps"     "Ns"          "ns.clvng"    "alive"      
+    #> [11] "alv.s.yrs"   "f.age"       "mum"         "dad"         "ID"         
+    #> [16] "ind.gts"
