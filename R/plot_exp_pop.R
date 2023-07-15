@@ -6,7 +6,6 @@
 #' @param exp_N_base Expected population size in base year
 #' @param srvy_yrs Survey years
 #'
-#' @return NULL.
 #' @export
 #'
 #' @examples
@@ -35,6 +34,4 @@ plot_exp_pop = function(sim_years, exp_N_t, base_yr, exp_N_base, srvy_yrs) {
     "topleft", legend = c("Over time", "In base year", "Survey years"),
     col = c(2, 2, 1), lwd = c(2, 1, 1), lty = c(1, 1, 2)
   )
-
-  return()
 }
