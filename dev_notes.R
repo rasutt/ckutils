@@ -89,8 +89,9 @@ use_package("graphics")
 # Check some more
 check()
 
-# Put examples in readme (is there a better way than repeating examples so
-# much? I still think writing vignettes seems like a natural way to develop a package, cause you bring the functions together..)
+# Put examples in readme (is there a better way than repeating examples so much?
+# I still think writing vignettes seems like a natural way to develop a package,
+# cause you bring the functions together..)
 
 # Knit readme with latest version of package
 build_readme()
