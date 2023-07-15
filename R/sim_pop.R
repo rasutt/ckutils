@@ -2,7 +2,7 @@
 #'
 #' @param phi The individual survival rate
 #' @param lambda The population growth rate
-#' @param N.init Initial populatin size
+#' @param N.init Initial population size
 #' @param hist.len Length of simulation
 #' @param srvy.yrs Survey years
 #' @param k Number of survey years
