@@ -4,7 +4,7 @@
 # library(devtools)
 
 # Set devtools to be attached automatically
-use_devtools()
+# use_devtools()
 
 devtools::dev_sitrep()
 
@@ -80,18 +80,23 @@ use_test("plot_exp_pop")
 # Run tests. Ctrl + Shift + T
 test()
 
-# Add stats package to imports section in description file (required by CRAN).
-# Need to use stats::function_name too I think, and in general for non-base
-# packages
+# Add packages to imports section in description file (required by CRAN). Need
+# to use package::function_name for non-base packages
 use_package("stats")
 use_package("graphics")
 
 # Check some more
 check()
 
-# Put examples in readme (is there a better way than repeating examples so much?
-# I still think writing vignettes seems like a natural way to develop a package,
-# cause you bring the functions together..)
+# Put examples in readme (https://r-pkgs.org/man.html#child-documents avoids
+# repeating examples so much. I still think writing vignettes seems like a
+# natural way to develop a package, cause you bring the functions together. But
+# a website seems the main thing?)
+
+# Make website
+# use_pkgdown()
+# build_site()
+# use_pkgdown_github_pages()
 
 # Knit readme with latest version of package
 build_readme()
