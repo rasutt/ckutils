@@ -36,5 +36,5 @@ plot_exp_pop = function(sim_years, exp_N_t, base_yr, exp_N_base, srvy_yrs) {
     col = c(2, 2, 1), lwd = c(2, 1, 1), lty = c(1, 1, 2)
   )
 
-  return(NULL)
+  return()
 }

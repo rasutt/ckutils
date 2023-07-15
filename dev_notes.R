@@ -1,7 +1,14 @@
 # Following example from https://r-pkgs.org/whole-game.html
 
 # Load devtools package for writing packages
-library(devtools)
+# library(devtools)
+
+# Set devtools to be attached automatically
+use_devtools()
+
+devtools::dev_sitrep()
+
+use_build_ignore("dev_notes.R")
 
 # Make new function file
 use_r("sim_pop")
