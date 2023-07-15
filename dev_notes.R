@@ -10,6 +10,11 @@ devtools::dev_sitrep()
 
 use_build_ignore("dev_notes.R")
 
+# keyboard shortcuts, press Alt + Shift + K
+# Command palette Ctrl + Shift + P
+
+# Seems like the workflow is write a ...?
+
 # Make new function file
 use_r("sim_pop")
 use_r("plot_exp_pop")
@@ -20,6 +25,8 @@ rename_files("simpop", "sim_pop")
 load_all()
 
 # Try new functions
+
+# Plot expected population size
 plot_exp_pop(
   sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
   srvy_yrs = 20
@@ -39,15 +46,20 @@ pop_stud = SimPopStud(
 head(pop_stud)
 names(attributes(pop_stud))
 
-# Check the package works. Ctrl + Shift + E
+# Check the package works. Ctrl + Shift + E. Do this often!
 check()
 
 # Insert roxygen skeleton for function documentation. Inside function code Ctrl
 # + Alt + Shift + R
 
+# Put the dev code into the examples section
+
 # Convert roxygen comments into R documentation, and update namespace. Ctrl +
 # Shift + D
 document()
+
+# Check again
+check()
 
 # Check the help files
 ?plot_exp_pop
@@ -63,6 +75,8 @@ library(ckutils)
 use_test("sim_pop")
 use_test("plot_exp_pop")
 
+# Adapt the example code as tests
+
 # Run tests. Ctrl + Shift + T
 test()
 
@@ -72,5 +86,13 @@ test()
 use_package("stats")
 use_package("graphics")
 
+# Check some more
+check()
+
+# Put examples in readme (is there a better way than repeating examples so
+# much? I still think writing vignettes seems like a natural way to develop a package, cause you bring the functions together..)
+
 # Knit readme with latest version of package
 build_readme()
+
+# Git commit. ctrl + Alt + M
