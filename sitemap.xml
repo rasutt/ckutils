@@ -16,12 +16,15 @@
     <loc>https://rasutt.github.io/ckutils/index.html</loc>
   </url>
   <url>
-    <loc>https://rasutt.github.io/ckutils/reference/SimPopStud.html</loc>
+    <loc>https://rasutt.github.io/ckutils/reference/find_exp_ns_kps.html</loc>
   </url>
   <url>
     <loc>https://rasutt.github.io/ckutils/reference/index.html</loc>
   </url>
   <url>
     <loc>https://rasutt.github.io/ckutils/reference/plot_exp_pop.html</loc>
+  </url>
+  <url>
+    <loc>https://rasutt.github.io/ckutils/reference/sim_pop_study.html</loc>
   </url>
 </urlset>

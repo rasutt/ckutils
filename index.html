@@ -75,35 +75,49 @@
 <span><span class="co"># Plot the expected population size for a particular scenario</span></span>
 <span><span class="fu"><a href="reference/plot_exp_pop.html">plot_exp_pop</a></span><span class="op">(</span></span>
 <span>  sim_years <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, exp_N_t <span class="op">=</span> <span class="fl">20</span><span class="op">*</span><span class="fl">1.05</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span>, base_yr <span class="op">=</span> <span class="fl">1</span>, exp_N_base <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>  srvy_yrs <span class="op">=</span> <span class="fl">20</span></span>
+<span>  srvy_yrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set random seed for testing</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate one population and study</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pop_stud <span class="ot">=</span> <span class="fu">SimPopStud</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi =</span> <span class="fl">0.9</span>, <span class="at">lambda =</span> <span class="fl">1.05</span>, <span class="at">N.init =</span> <span class="dv">20</span>, <span class="at">hist.len =</span> <span class="dv">20</span>, <span class="at">srvy.yrs =</span> <span class="dv">20</span>, <span class="at">k =</span> <span class="dv">1</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">f.year =</span> <span class="dv">20</span>, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">L =</span> <span class="dv">10</span>, <span class="at">imaf =</span> <span class="fl">0.5</span>, <span class="at">clvng.p =</span> <span class="dv">0</span>, <span class="at">tmp.emgn =</span> <span class="dv">0</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="dv">5</span>, <span class="at">clvng.ints =</span> F</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at it</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pop_stud)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    ID mum dad C20 Cvg20</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 10  NA  NA   1     0</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 11  NA  NA   1     0</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 20  NA  NA   1     0</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 28 28  10  14   1     1</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32 32  21  18   1     0</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 39 39   3  19   1     1</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">attributes</span>(pop_stud))</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       </span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] "N.t.vec"     "ns.caps"     "Ns"          "ns.clvng"    "alive"      </span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] "alv.s.yrs"   "f.age"       "mum"         "dad"         "ID"         </span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] "ind.gts"</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find expected numbers of kin-pairs in population</span></span>
+<span><span class="fu"><a href="reference/find_exp_ns_kps.html">find_exp_ns_kps</a></span><span class="op">(</span></span>
+<span>    exp.N.t <span class="op">=</span> <span class="fl">20</span><span class="op">*</span><span class="fl">1.05</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span>, s.yr.inds <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, phi <span class="op">=</span> <span class="fl">0.9</span>, rho <span class="op">=</span> <span class="fl">0.15</span>, </span>
+<span>    lambda <span class="op">=</span> <span class="fl">1.05</span>, alpha <span class="op">=</span> <span class="fl">5</span>, srvy.yrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">20</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; $wtn</span></span>
+<span><span class="co">#&gt;      N.s.yrs      APs     POPs     SMPs     SFPs     FSPs     HSPs</span></span>
+<span><span class="co">#&gt; [1,]   21.00 210.0000 24.93750 27.35514 28.00031 4.102449 47.15056</span></span>
+<span><span class="co">#&gt; [2,]   22.05 232.0763 26.18438 28.72290 29.41366 4.102449 49.93166</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $btn</span></span>
+<span><span class="co">#&gt;         APs   SPs     POPs     SMPs SMPs.kwn.age     SFPs     FSPs     HSPs</span></span>
+<span><span class="co">#&gt; [1,] 463.05 17.01 52.09875 56.82054    0.3904464 56.61519 8.093546 97.24864</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Set random seed for testing</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Simulate one population and study</span></span>
+<span><span class="va">pop_study</span> <span class="op">=</span> <span class="fu"><a href="reference/sim_pop_study.html">sim_pop_study</a></span><span class="op">(</span></span>
+<span>  phi <span class="op">=</span> <span class="fl">0.9</span>, lambda <span class="op">=</span> <span class="fl">1.05</span>, N.init <span class="op">=</span> <span class="fl">20</span>, hist.len <span class="op">=</span> <span class="fl">20</span>, srvy.yrs <span class="op">=</span> <span class="fl">20</span>, k <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  f.year <span class="op">=</span> <span class="fl">20</span>, p <span class="op">=</span> <span class="fl">0.5</span>, L <span class="op">=</span> <span class="fl">10</span>, imaf <span class="op">=</span> <span class="fl">0.5</span>, clvng.p <span class="op">=</span> <span class="fl">0</span>, tmp.emgn <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">5</span>, clvng.ints <span class="op">=</span> <span class="cn">F</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Look at it</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    ID mum dad C20 Cvg20</span></span>
+<span><span class="co">#&gt; 10 10  NA  NA   1     0</span></span>
+<span><span class="co">#&gt; 11 11  NA  NA   1     0</span></span>
+<span><span class="co">#&gt; 20 20  NA  NA   1     0</span></span>
+<span><span class="co">#&gt; 28 28  10  14   1     1</span></span>
+<span><span class="co">#&gt; 32 32  21  18   1     0</span></span>
+<span><span class="co">#&gt; 39 39   3  19   1     1</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       </span></span>
+<span><span class="co">#&gt;  [6] "N.t.vec"     "ns.caps"     "Ns"          "ns.clvng"    "alive"      </span></span>
+<span><span class="co">#&gt; [11] "alv.s.yrs"   "f.age"       "mum"         "dad"         "ID"         </span></span>
+<span><span class="co">#&gt; [16] "ind.gts"</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
