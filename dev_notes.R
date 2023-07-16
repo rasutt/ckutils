@@ -64,6 +64,11 @@ use_test("find_exp_ns_kps")
 test_active_file() # Ctrl + t
 test() # Ctrl + Shift + T
 
+use_vignette("simulating-populations-and-studies")
+
+check()
+
+
 # Add packages to imports section in description file (required by CRAN). Need
 # to use package::function_name for non-base packages
 use_package("stats")

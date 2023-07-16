@@ -1,35 +1,22 @@
 ---
-output: github_document
+title: "Simulating populations and studies"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{simulating-populations-and-studies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  comment = "#>"
 )
 ```
 
-# ckutils
-
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of ckutils is to provide some utilities for close-kin study design and implementation.
-
-## Installation
-
-You can install the development version of ckutils from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("rasutt/ckutils")
+```{r setup}
+library(ckutils)
 ```
-
-## Example
 
 This is a basic example which shows you how to simulate a wildlife population and a sampling-survey study of it:
 
@@ -59,7 +46,7 @@ sim_yrs = init_yr:fnl_yr
 exp_N_init = exp_N_ref * lambda^(init_yr - ref_yr)
 exp_N_t = exp_N_init * lambda^(0:(sim_len - 1))
 
-# Plot the expected population size for a particular scenario
+# Plot expected population size over simulation years
 plot_exp_pop(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs)
 ```
 ```{r}

@@ -28,11 +28,30 @@ population and a sampling-survey study of it:
 # Load close-kin utilities package
 library(ckutils)
 
+# Population size in reference year
+ref_yr = 2010
+exp_N_ref = 1500
+
+# Population growth rate
+lambda = 1.05
+
+# Survey years
+srvy_yrs = c(2010, 2015, 2020)
+
+# Simulation length
+sim_len = 50
+
+# Simulation years
+fnl_yr = tail(srvy_yrs, 1)
+init_yr = fnl_yr - sim_len + 1
+sim_yrs = init_yr:fnl_yr
+
+# Expected population size over simulation years
+exp_N_init = exp_N_ref * lambda^(init_yr - ref_yr)
+exp_N_t = exp_N_init * lambda^(0:(sim_len - 1))
+
 # Plot the expected population size for a particular scenario
-plot_exp_pop(
-  sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
-  srvy_yrs = c(18, 20)
-)
+plot_exp_pop(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs)
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
