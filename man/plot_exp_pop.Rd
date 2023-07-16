@@ -17,9 +17,6 @@ plot_exp_pop(sim_years, exp_N_t, base_yr, exp_N_base, srvy_yrs)
 
 \item{srvy_yrs}{Survey years}
 }
-\value{
-NULL.
-}
 \description{
 Plot expected population size over time
 }

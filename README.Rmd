@@ -40,20 +40,30 @@ library(ckutils)
 # Plot the expected population size for a particular scenario
 plot_exp_pop(
   sim_years = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
-  srvy_yrs = 20
+  srvy_yrs = c(18, 20)
 )
-
+```
+```{r}
+# Find expected numbers of kin-pairs in population
+find_exp_ns_kps(
+    exp.N.t = 20*1.05^(1:20), s.yr.inds = 1:2, phi = 0.9, rho = 0.15, 
+    lambda = 1.05, alpha = 5, srvy.yrs = c(18, 20), k = 2
+)
+```
+```{r}
 # Set random seed for testing
 set.seed(1)
 
 # Simulate one population and study
-pop_stud = SimPopStud(
+pop_study = sim_pop_study(
   phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
   f.year = 20, p = 0.5, L = 10, imaf = 0.5, clvng.p = 0, tmp.emgn = 0,
   alpha = 5, clvng.ints = F
 )
 
 # Look at it
-head(pop_stud)
-names(attributes(pop_stud))
+head(pop_study)
+```
+```{r}
+names(attributes(pop_study))
 ```

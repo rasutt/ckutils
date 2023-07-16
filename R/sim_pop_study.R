@@ -25,15 +25,15 @@
 #' stch.bths = TRUE
 #'
 #' # Simulate one population and study
-#' pop_stud = SimPopStud(
+#' pop_study = sim_pop_study(
 #'   phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
 #'   f.year = 20, p = 0.5, L = 10, imaf = 0.5, clvng.p = 0, tmp.emgn = 0,
 #'   alpha = 5, clvng.ints = FALSE
 #' )
 #'
 #' # Look at it
-#' head(pop_stud)
-#' names(attributes(pop_stud))
+#' head(pop_study)
+#' names(attributes(pop_study))
 
 # Function to simulate a population of animals over time and a mark-recapture
 # study of it.
@@ -41,7 +41,7 @@
 # Returns: Data frame with IDs, parents (NA for initial population), and
 # capture histories for captured animals, with parameters, implied birthrate
 # beta, and population trajectory N.t.vec attached.
-SimPopStud <- function(
+sim_pop_study <- function(
     phi, lambda, N.init, hist.len, srvy.yrs, k, f.year, p, L, imaf, clvng.p,
     tmp.emgn, alpha, clvng.ints
 ) {

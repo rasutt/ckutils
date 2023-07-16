@@ -14,7 +14,12 @@
 #' @export
 #'
 #' @examples
-FindPredNsKPsPop = function(
+#' find_exp_ns_kps(
+#'   exp.N.t = 20*1.05^(1:20), s.yr.inds = 1:2, phi = 0.9, rho = 0.15,
+#'   lambda = 1.05, alpha = 5, srvy.yrs = c(18, 20), k = 2
+#' )
+#'
+find_exp_ns_kps = function(
     exp.N.t, s.yr.inds, phi, rho, lambda, alpha, srvy.yrs, k
 ) {
   ## Intermediate results
@@ -63,7 +68,7 @@ FindPredNsKPsPop = function(
   ## Between surveys
 
   # Survey-pair indices
-  s.pr.inds = combn(k, 2)
+  s.pr.inds = utils::combn(k, 2)
   s.inds.1 = s.pr.inds[1, ]
   s.inds.2 = s.pr.inds[2, ]
   exp.N.s.yrs.1 = exp.N.s.yrs[s.inds.1]
