@@ -148,6 +148,10 @@
 <div class="section level3">
 <h3 id="simulate-population-and-study">Simulate population and study<a class="anchor" aria-label="anchor" href="#simulate-population-and-study"></a>
 </h3>
+<p>ckutils simulates genetic inheritance of biallelic single nucleotide polymorphisms (SNPs) from parents to offspring. The number of SNP loci simulated <span class="math inline"><em>L</em></span>, and the initial minor allele frequency (IMAF) can be specified.</p>
+<p>The larger is <span class="math inline"><em>L</em></span>, the more informative the genotypes simulated, and the better close-kin pairs can be distinguished from them, but the slower the simulation and analysis is, and the more costly such genotypes are to produce for real-world samples.</p>
+<p>The closer the IMAF is to 0.5 the more informative each SNP locus is, but in real-world genotypes MAFs vary. As the genetic inheritance simulated in ckutils is probabilistic the MAFs at each locus will vary independently, and at a rate that decreases with population size.</p>
+<p>There are also options to specify biological scenarios such as additional capture probability for females when they have a new offspring, temporary emigration of males outside of sampling areas, and selection of females to have offspring in order of time since last having offspring.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Number of loci in genome</span></span>
 <span><span class="va">L</span> <span class="op">=</span> <span class="fl">100</span></span>
@@ -156,24 +160,23 @@
 <span><span class="va">imaf</span> <span class="op">=</span> <span class="fl">0.5</span></span>
 <span></span>
 <span><span class="co"># Set random seed for testing</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># set.seed(1)</span></span>
 <span></span>
 <span><span class="co"># Simulate one population and study</span></span>
 <span><span class="va">pop_study</span> <span class="op">=</span> <span class="fu"><a href="reference/sim_pop_study.html">sim_pop_study</a></span><span class="op">(</span></span>
-<span>  <span class="va">phi</span>, <span class="va">lambda</span>, <span class="va">exp_N_init</span>, <span class="va">sim_len</span>, <span class="va">srvy_yrs</span>, <span class="va">k</span>,</span>
-<span>  <span class="va">fnl_yr</span>, <span class="va">p</span>, <span class="va">L</span>, <span class="va">imaf</span>, clvng.p <span class="op">=</span> <span class="fl">0</span>, tmp.emgn <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="va">alpha</span>, clvng.ints <span class="op">=</span> <span class="cn">F</span></span>
+<span>  <span class="va">phi</span>, <span class="va">lambda</span>, <span class="va">exp_N_init</span>, <span class="va">sim_len</span>, <span class="va">srvy_yrs</span>, <span class="va">k</span>, <span class="va">fnl_yr</span>, <span class="va">p</span>, <span class="va">L</span>, <span class="va">imaf</span>, </span>
+<span>  clvng.p <span class="op">=</span> <span class="fl">0</span>, tmp.emgn <span class="op">=</span> <span class="fl">0</span>, alpha <span class="op">=</span> <span class="va">alpha</span>, clvng.ints <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Look at it</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020</span></span>
-<span><span class="co">#&gt; 455   455 159  71     0     1     0       1       1       1</span></span>
-<span><span class="co">#&gt; 506   506 115 150     1     0     0       0       0       0</span></span>
-<span><span class="co">#&gt; 536   536 116 192     1     0     0       0       0       0</span></span>
-<span><span class="co">#&gt; 1012 1012 411  65     0     1     0       0       0       0</span></span>
-<span><span class="co">#&gt; 1035 1035  16 369     0     1     1       1       1       1</span></span>
-<span><span class="co">#&gt; 1052 1052 478 480     1     0     0       0       0       0</span></span></code></pre></div>
+<span><span class="co">#&gt;      ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020</span></span>
+<span><span class="co">#&gt; 297 297  29   8     1     0     0       1       0       0</span></span>
+<span><span class="co">#&gt; 474 474 112  70     1     0     0       0       0       0</span></span>
+<span><span class="co">#&gt; 618 618 223 258     1     1     0       0       0       0</span></span>
+<span><span class="co">#&gt; 660 660 262 147     1     0     0       1       1       1</span></span>
+<span><span class="co">#&gt; 686 686  40 218     0     1     0       0       0       0</span></span>
+<span><span class="co">#&gt; 723 723 190 139     1     0     0       0       0       0</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       </span></span>

@@ -135,10 +135,7 @@ several attributes.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Need a global variable setting births to be stochastic</span></span></span>
-<span class="r-in"><span><span class="va">stch.bths</span> <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Simulate one population and study</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Simulate one population and study</span></span></span>
 <span class="r-in"><span><span class="va">pop_study</span> <span class="op">=</span> <span class="fu">sim_pop_study</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  phi <span class="op">=</span> <span class="fl">0.9</span>, lambda <span class="op">=</span> <span class="fl">1.05</span>, N.init <span class="op">=</span> <span class="fl">20</span>, hist.len <span class="op">=</span> <span class="fl">20</span>, srvy.yrs <span class="op">=</span> <span class="fl">20</span>, k <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  f.year <span class="op">=</span> <span class="fl">20</span>, p <span class="op">=</span> <span class="fl">0.5</span>, L <span class="op">=</span> <span class="fl">10</span>, imaf <span class="op">=</span> <span class="fl">0.5</span>, clvng.p <span class="op">=</span> <span class="fl">0</span>, tmp.emgn <span class="op">=</span> <span class="fl">0</span>,</span></span>
@@ -148,17 +145,18 @@ several attributes.</p>
 <span class="r-in"><span><span class="co"># Look at it</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID mum dad C20 Cvg20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 12  NA  NA   1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 19  NA  NA   1     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31 31  19  11   1     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32 32  16  20   1     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41 41  12  17   1     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48 48  31   3   1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 18  NA  NA   1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 21  12   2   1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 22   4   3   1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 32  19  17   1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 35  19  15   1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 46  22  10   1     0</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "N.t.vec"     "ns.caps"     "Ns"          "ns.clvng"    "alive"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "alv.s.yrs"   "f.age"       "mum"         "dad"         "ID"         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16] "ind.gts"    </span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
