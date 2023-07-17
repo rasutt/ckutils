@@ -4,16 +4,16 @@
 \alias{plot_exp_pop}
 \title{Plot expected population size over time}
 \usage{
-plot_exp_pop(sim_yrs, exp_N_t, base_yr, exp_N_base, srvy_yrs)
+plot_exp_pop(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs)
 }
 \arguments{
 \item{sim_yrs}{Years over which population will be simulated}
 
 \item{exp_N_t}{Expected population size in each year}
 
-\item{base_yr}{Base year at which expected population size is determined}
+\item{ref_yr}{reference year at which expected population size is defined}
 
-\item{exp_N_base}{Expected population size in base year}
+\item{exp_N_ref}{Expected population size in reference year}
 
 \item{srvy_yrs}{Survey years}
 }
@@ -22,7 +22,7 @@ Plot expected population size over time
 }
 \examples{
 plot_exp_pop(
-  sim_yrs = 1:20, exp_N_t = 20*1.05^(1:20), base_yr = 1, exp_N_base = 20,
+  sim_yrs = 1:20, exp_N_t = 20*1.05^(1:20), ref_yr = 1, exp_N_ref = 20,
   srvy_yrs = 20
 )
 

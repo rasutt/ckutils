@@ -20,7 +20,7 @@ plot_exp_pop = function(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs) {
     sim_yrs, exp_N_t, ylim = c(0, max(exp_N_t)),
     col = 'red', lwd = 2, type = 'l',
     xlab = 'Year', ylab = 'Population size',
-    main = "Expected population size over time"
+    main = "Expected population size over simulation"
   )
 
   # ref year and population
@@ -31,7 +31,7 @@ plot_exp_pop = function(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs) {
 
   # Add legend
   graphics::legend(
-    "topleft", legend = c("Over time", "In ref year", "Survey years"),
+    "topleft", legend = c("Over time", "In reference year", "Survey years"),
     col = c(2, 2, 1), lwd = c(2, 1, 1), lty = c(1, 1, 2)
   )
 }

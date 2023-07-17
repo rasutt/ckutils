@@ -31,24 +31,26 @@ devtools::install_github("rasutt/ckutils")
 
 ## Example
 
-This is a basic example which shows you how to simulate a wildlife population and a sampling-survey study of it:
+This is a basic example which shows you how to simulate a wildlife population and a sampling-survey study of it.
+
+### Simulation years and expected population size
+
+Close-kin studies use the probabilities of close family relationships between pairs of sampled animals (close-kin pairs). These relationships are defined by the breeding events that occur prior to sampling, so ckutils lets you specify the number of years to simulate the population prior to the final survey year. This needs to be long enough that most of the relevant breeding events occur during the simulation.
+
+ckutils simulates populations in which the expected population size grows by a constant factor called the population growth rate $\lambda$. Specifying this rate along with the expected population size $N$ in a reference year defines the expected population size in all years. It is good to check these as very small population sizes can be unsustainable, and very large ones slow to simulate.
 
 ```{r example}
 # Load close-kin utilities package
 library(ckutils)
 
-# Population size in reference year
+# Survey years and simulation length
+srvy_yrs = c(2010, 2015, 2020)
+sim_len = 50
+
+# Population growth rate, and population size in reference year
+lambda = 1.05
 ref_yr = 2010
 exp_N_ref = 1500
-
-# Population growth rate
-lambda = 1.05
-
-# Survey years
-srvy_yrs = c(2010, 2015, 2020)
-
-# Simulation length
-sim_len = 50
 
 # Simulation years
 fnl_yr = tail(srvy_yrs, 1)
@@ -59,25 +61,56 @@ sim_yrs = init_yr:fnl_yr
 exp_N_init = exp_N_ref * lambda^(init_yr - ref_yr)
 exp_N_t = exp_N_init * lambda^(0:(sim_len - 1))
 
-# Plot the expected population size for a particular scenario
+# Plot expected population size over simulation years
 plot_exp_pop(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs)
 ```
+
+### Predicted numbers of close-kin pairs
+
+ckutils simulates populations in which each animal survives from one year to the next with the same constant probability $\phi$, and becomes sexually mature at the same age $\alpha$. Each animal also has the same constant probability $p$ of being sampled in any survey (given that it is alive in that year).
+
+These parameters, along with the population and survey parameters above, allow for approximations of the expected numbers of various close-kin pairs among sampled animals. A sufficient number of such pairs is essential to a successful study.
+
 ```{r}
+# Annual survival rate and age of sexual maturity
+phi = 0.9
+alpha = 8
+
+# Capture probability
+p = 0.1
+
+# Survey year indices
+s_yr_inds = seq_along(srvy_yrs)
+
+# Number of surveys
+k = length(srvy_yrs)
+
+# Per capita birth rate
+rho = lambda - phi
+
 # Find expected numbers of kin-pairs in population
-find_exp_ns_kps(
-    exp.N.t = 20*1.05^(1:20), s.yr.inds = 1:2, phi = 0.9, rho = 0.15, 
-    lambda = 1.05, alpha = 5, srvy.yrs = c(18, 20), k = 2
-)
+find_exp_ns_kps(exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k)
 ```
+
+### Simulate population and study
+
+
+
 ```{r}
+# Number of loci in genome
+L = 100
+
+# Initial minor allele frequency
+imaf = 0.5
+
 # Set random seed for testing
 set.seed(1)
 
 # Simulate one population and study
 pop_study = sim_pop_study(
-  phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
-  f.year = 20, p = 0.5, L = 10, imaf = 0.5, clvng.p = 0, tmp.emgn = 0,
-  alpha = 5, clvng.ints = F
+  phi, lambda, exp_N_init, sim_len, srvy_yrs, k,
+  fnl_yr, p, L, imaf, clvng.p = 0, tmp.emgn = 0,
+  alpha = alpha, clvng.ints = F
 )
 
 # Look at it

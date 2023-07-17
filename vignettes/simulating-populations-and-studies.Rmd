@@ -2,7 +2,7 @@
 title: "Simulating populations and studies"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{simulating-populations-and-studies}
+  %\VignetteIndexEntry{Simulating populations and studies}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

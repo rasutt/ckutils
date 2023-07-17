@@ -6,6 +6,8 @@
 # Set devtools to be attached automatically
 # use_devtools()
 
+library(testthat)
+
 devtools::dev_sitrep()
 
 use_build_ignore("dev_notes.R")
@@ -61,7 +63,7 @@ use_test("find_exp_ns_kps")
 # use_data()
 
 # Run tests.
-test_active_file() # Ctrl + t
+test_active_file() # Ctrl + T
 test() # Ctrl + Shift + T
 
 use_vignette("simulating-populations-and-studies")
