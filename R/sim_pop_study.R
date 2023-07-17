@@ -21,9 +21,6 @@
 #' @export
 #'
 #' @examples
-#' # Need a global variable setting births to be stochastic
-#' stch.bths = TRUE
-#'
 #' # Simulate one population and study
 #' pop_study = sim_pop_study(
 #'   phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
@@ -34,13 +31,7 @@
 #' # Look at it
 #' head(pop_study)
 #' names(attributes(pop_study))
-
-# Function to simulate a population of animals over time and a mark-recapture
-# study of it.
-
-# Returns: Data frame with IDs, parents (NA for initial population), and
-# capture histories for captured animals, with parameters, implied birthrate
-# beta, and population trajectory N.t.vec attached.
+#'
 sim_pop_study <- function(
     phi, lambda, N.init, hist.len, srvy.yrs, k, f.year, p, L, imaf, clvng.p,
     tmp.emgn, alpha, clvng.ints
@@ -48,6 +39,7 @@ sim_pop_study <- function(
   # Record start-time
   s.time <- proc.time()
 
+  # Set births to be stochastic
   stch.bths = T
 
   # Find implied birth rate for mature females surviving to birth year

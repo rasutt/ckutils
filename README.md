@@ -119,6 +119,27 @@ find_exp_ns_kps(exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k)
 
 ### Simulate population and study
 
+ckutils simulates genetic inheritance of biallelic single nucleotide
+polymorphisms (SNPs) from parents to offspring. The number of SNP loci
+simulated $L$, and the initial minor allele frequency (IMAF) can be
+specified.
+
+The larger is $L$, the more informative the genotypes simulated, and the
+better close-kin pairs can be distinguished from them, but the slower
+the simulation and analysis is, and the more costly such genotypes are
+to produce for real-world samples.
+
+The closer the IMAF is to 0.5 the more informative each SNP locus is,
+but in real-world genotypes MAFs vary. As the genetic inheritance
+simulated in ckutils is probabilistic the MAFs at each locus will vary
+independently, and at a rate that decreases with population size.
+
+There are also options to specify biological scenarios such as
+additional capture probability for females when they have a new
+offspring, temporary emigration of males outside of sampling areas, and
+selection of females to have offspring in order of time since last
+having offspring.
+
 ``` r
 # Number of loci in genome
 L = 100
@@ -127,24 +148,23 @@ L = 100
 imaf = 0.5
 
 # Set random seed for testing
-set.seed(1)
+# set.seed(1)
 
 # Simulate one population and study
 pop_study = sim_pop_study(
-  phi, lambda, exp_N_init, sim_len, srvy_yrs, k,
-  fnl_yr, p, L, imaf, clvng.p = 0, tmp.emgn = 0,
-  alpha = alpha, clvng.ints = F
+  phi, lambda, exp_N_init, sim_len, srvy_yrs, k, fnl_yr, p, L, imaf, 
+  clvng.p = 0, tmp.emgn = 0, alpha = alpha, clvng.ints = F
 )
 
 # Look at it
 head(pop_study)
-#>        ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020
-#> 455   455 159  71     0     1     0       1       1       1
-#> 506   506 115 150     1     0     0       0       0       0
-#> 536   536 116 192     1     0     0       0       0       0
-#> 1012 1012 411  65     0     1     0       0       0       0
-#> 1035 1035  16 369     0     1     1       1       1       1
-#> 1052 1052 478 480     1     0     0       0       0       0
+#>      ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020
+#> 297 297  29   8     1     0     0       1       0       0
+#> 474 474 112  70     1     0     0       0       0       0
+#> 618 618 223 258     1     1     0       0       0       0
+#> 660 660 262 147     1     0     0       1       1       1
+#> 686 686  40 218     0     1     0       0       0       0
+#> 723 723 190 139     1     0     0       0       0       0
 ```
 
 ``` r

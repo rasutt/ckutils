@@ -21,9 +21,25 @@ plot_exp_pop(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs)
 Plot expected population size over time
 }
 \examples{
-plot_exp_pop(
-  sim_yrs = 1:20, exp_N_t = 20*1.05^(1:20), ref_yr = 1, exp_N_ref = 20,
-  srvy_yrs = 20
-)
+# Survey years and simulation length
+srvy_yrs = c(2010, 2015, 2020)
+sim_len = 50
+
+# Population growth rate, and population size in reference year
+lambda = 1.05
+ref_yr = 2010
+exp_N_ref = 1500
+
+# Simulation years
+fnl_yr = tail(srvy_yrs, 1)
+init_yr = fnl_yr - sim_len + 1
+sim_yrs = init_yr:fnl_yr
+
+# Expected population size over simulation years
+exp_N_init = exp_N_ref * lambda^(init_yr - ref_yr)
+exp_N_t = exp_N_init * lambda^(0:(sim_len - 1))
+
+# Plot expected population size over simulation years
+plot_exp_pop(sim_yrs, exp_N_t, ref_yr, exp_N_ref, srvy_yrs)
 
 }

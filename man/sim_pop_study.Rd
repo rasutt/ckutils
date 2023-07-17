@@ -59,9 +59,6 @@ several attributes.
 Simulate a population and a study of it
 }
 \examples{
-# Need a global variable setting births to be stochastic
-stch.bths = TRUE
-
 # Simulate one population and study
 pop_study = sim_pop_study(
   phi = 0.9, lambda = 1.05, N.init = 20, hist.len = 20, srvy.yrs = 20, k = 1,
@@ -72,4 +69,5 @@ pop_study = sim_pop_study(
 # Look at it
 head(pop_study)
 names(attributes(pop_study))
+
 }
