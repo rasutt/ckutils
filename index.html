@@ -73,23 +73,24 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to simulate a wildlife population and a sampling-survey study of it:</p>
+<p>This is a basic example which shows you how to simulate a wildlife population and a sampling-survey study of it.</p>
+<div class="section level3">
+<h3 id="simulation-years-and-expected-population-size">Simulation years and expected population size<a class="anchor" aria-label="anchor" href="#simulation-years-and-expected-population-size"></a>
+</h3>
+<p>Close-kin studies use the probabilities of close family relationships between pairs of sampled animals (close-kin pairs). These relationships are defined by the breeding events that occur prior to sampling, so ckutils lets you specify the number of years to simulate the population prior to the final survey year. This needs to be long enough that most of the relevant breeding events occur during the simulation.</p>
+<p>ckutils simulates populations in which the expected population size grows by a constant factor called the population growth rate <span class="math inline"><em>λ</em></span>. Specifying this rate along with the expected population size <span class="math inline"><em>N</em></span> in a reference year defines the expected population size in all years. It is good to check these as very small population sizes can be unsustainable, and very large ones slow to simulate.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load close-kin utilities package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rasutt.github.io/ckutils/">ckutils</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Population size in reference year</span></span>
+<span><span class="co"># Survey years and simulation length</span></span>
+<span><span class="va">srvy_yrs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">2015</span>, <span class="fl">2020</span><span class="op">)</span></span>
+<span><span class="va">sim_len</span> <span class="op">=</span> <span class="fl">50</span></span>
+<span></span>
+<span><span class="co"># Population growth rate, and population size in reference year</span></span>
+<span><span class="va">lambda</span> <span class="op">=</span> <span class="fl">1.05</span></span>
 <span><span class="va">ref_yr</span> <span class="op">=</span> <span class="fl">2010</span></span>
 <span><span class="va">exp_N_ref</span> <span class="op">=</span> <span class="fl">1500</span></span>
-<span></span>
-<span><span class="co"># Population growth rate</span></span>
-<span><span class="va">lambda</span> <span class="op">=</span> <span class="fl">1.05</span></span>
-<span></span>
-<span><span class="co"># Survey years</span></span>
-<span><span class="va">srvy_yrs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>, <span class="fl">2015</span>, <span class="fl">2020</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Simulation length</span></span>
-<span><span class="va">sim_len</span> <span class="op">=</span> <span class="fl">50</span></span>
 <span></span>
 <span><span class="co"># Simulation years</span></span>
 <span><span class="va">fnl_yr</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">srvy_yrs</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -100,49 +101,86 @@
 <span><span class="va">exp_N_init</span> <span class="op">=</span> <span class="va">exp_N_ref</span> <span class="op">*</span> <span class="va">lambda</span><span class="op">^</span><span class="op">(</span><span class="va">init_yr</span> <span class="op">-</span> <span class="va">ref_yr</span><span class="op">)</span></span>
 <span><span class="va">exp_N_t</span> <span class="op">=</span> <span class="va">exp_N_init</span> <span class="op">*</span> <span class="va">lambda</span><span class="op">^</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">sim_len</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Plot the expected population size for a particular scenario</span></span>
+<span><span class="co"># Plot expected population size over simulation years</span></span>
 <span><span class="fu"><a href="reference/plot_exp_pop.html">plot_exp_pop</a></span><span class="op">(</span><span class="va">sim_yrs</span>, <span class="va">exp_N_t</span>, <span class="va">ref_yr</span>, <span class="va">exp_N_ref</span>, <span class="va">srvy_yrs</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="predicted-numbers-of-close-kin-pairs">Predicted numbers of close-kin pairs<a class="anchor" aria-label="anchor" href="#predicted-numbers-of-close-kin-pairs"></a>
+</h3>
+<p>ckutils simulates populations in which each animal survives from one year to the next with the same constant probability <span class="math inline"><em>ϕ</em></span>, and becomes sexually mature at the same age <span class="math inline"><em>α</em></span>. Each animal also has the same constant probability <span class="math inline"><em>p</em></span> of being sampled in any survey (given that it is alive in that year).</p>
+<p>These parameters, along with the population and survey parameters above, allow for approximations of the expected numbers of various close-kin pairs among sampled animals. A sufficient number of such pairs is essential to a successful study.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Find expected numbers of kin-pairs in population</span></span>
-<span><span class="fu"><a href="reference/find_exp_ns_kps.html">find_exp_ns_kps</a></span><span class="op">(</span></span>
-<span>    exp.N.t <span class="op">=</span> <span class="fl">20</span><span class="op">*</span><span class="fl">1.05</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span>, s.yr.inds <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, phi <span class="op">=</span> <span class="fl">0.9</span>, rho <span class="op">=</span> <span class="fl">0.15</span>, </span>
-<span>    lambda <span class="op">=</span> <span class="fl">1.05</span>, alpha <span class="op">=</span> <span class="fl">5</span>, srvy.yrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>, <span class="fl">20</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">2</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Annual survival rate and age of sexual maturity</span></span>
+<span><span class="va">phi</span> <span class="op">=</span> <span class="fl">0.9</span></span>
+<span><span class="va">alpha</span> <span class="op">=</span> <span class="fl">8</span></span>
+<span></span>
+<span><span class="co"># Capture probability</span></span>
+<span><span class="va">p</span> <span class="op">=</span> <span class="fl">0.1</span></span>
+<span></span>
+<span><span class="co"># Survey year indices</span></span>
+<span><span class="va">s_yr_inds</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">srvy_yrs</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Number of surveys</span></span>
+<span><span class="va">k</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">srvy_yrs</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Per capita birth rate</span></span>
+<span><span class="va">rho</span> <span class="op">=</span> <span class="va">lambda</span> <span class="op">-</span> <span class="va">phi</span></span>
+<span></span>
+<span><span class="co"># Find expected numbers of kin-pairs in population</span></span>
+<span><span class="fu"><a href="reference/find_exp_ns_kps.html">find_exp_ns_kps</a></span><span class="op">(</span><span class="va">exp_N_t</span>, <span class="va">s_yr_inds</span>, <span class="va">phi</span>, <span class="va">rho</span>, <span class="va">lambda</span>, <span class="va">alpha</span>, <span class="va">srvy_yrs</span>, <span class="va">k</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $wtn</span></span>
-<span><span class="co">#&gt;      N.s.yrs      APs     POPs     SMPs     SFPs     FSPs     HSPs</span></span>
-<span><span class="co">#&gt; [1,]   21.00 210.0000 24.93750 27.35514 28.00031 4.102449 47.15056</span></span>
-<span><span class="co">#&gt; [2,]   22.05 232.0763 26.18438 28.72290 29.41366 4.102449 49.93166</span></span>
+<span><span class="co">#&gt;       N.s.yrs      APs     POPs     SMPs     SFPs     FSPs      HSPs</span></span>
+<span><span class="co">#&gt; [1,] 223.7219 24913.89 265.6698 462.7737 477.7093 10.34484  919.7933</span></span>
+<span><span class="co">#&gt; [2,] 234.9080 27473.44 278.9533 485.9124 501.6192 10.34484  966.8419</span></span>
+<span><span class="co">#&gt; [3,] 246.6534 30295.64 292.9010 510.2080 526.7247 10.34484 1016.2430</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $btn</span></span>
-<span><span class="co">#&gt;         APs   SPs     POPs     SMPs SMPs.kwn.age     SFPs     FSPs     HSPs</span></span>
-<span><span class="co">#&gt; [1,] 463.05 17.01 52.09875 56.82054    0.3904464 56.61519 8.093546 97.24864</span></span></code></pre></div>
+<span><span class="co">#&gt;           APs       SPs     POPs     SMPs SMPs.kwn.age     SFPs     FSPs</span></span>
+<span><span class="co">#&gt; [1,] 52554.09 132.10557 566.1997 879.5848     4.159592 863.9176 17.60714</span></span>
+<span><span class="co">#&gt; [2,] 55181.79  78.00702 545.6511 646.3162     2.020720 624.3719 11.86953</span></span>
+<span><span class="co">#&gt; [3,] 57940.88 138.71085 594.5097 923.5640     4.367572 907.1424 17.60080</span></span>
+<span><span class="co">#&gt;          HSPs</span></span>
+<span><span class="co">#&gt; [1,] 1708.288</span></span>
+<span><span class="co">#&gt; [2,] 1246.949</span></span>
+<span><span class="co">#&gt; [3,] 1795.505</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="simulate-population-and-study">Simulate population and study<a class="anchor" aria-label="anchor" href="#simulate-population-and-study"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Set random seed for testing</span></span>
+<code class="sourceCode R"><span><span class="co"># Number of loci in genome</span></span>
+<span><span class="va">L</span> <span class="op">=</span> <span class="fl">100</span></span>
+<span></span>
+<span><span class="co"># Initial minor allele frequency</span></span>
+<span><span class="va">imaf</span> <span class="op">=</span> <span class="fl">0.5</span></span>
+<span></span>
+<span><span class="co"># Set random seed for testing</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Simulate one population and study</span></span>
 <span><span class="va">pop_study</span> <span class="op">=</span> <span class="fu"><a href="reference/sim_pop_study.html">sim_pop_study</a></span><span class="op">(</span></span>
-<span>  phi <span class="op">=</span> <span class="fl">0.9</span>, lambda <span class="op">=</span> <span class="fl">1.05</span>, N.init <span class="op">=</span> <span class="fl">20</span>, hist.len <span class="op">=</span> <span class="fl">20</span>, srvy.yrs <span class="op">=</span> <span class="fl">20</span>, k <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  f.year <span class="op">=</span> <span class="fl">20</span>, p <span class="op">=</span> <span class="fl">0.5</span>, L <span class="op">=</span> <span class="fl">10</span>, imaf <span class="op">=</span> <span class="fl">0.5</span>, clvng.p <span class="op">=</span> <span class="fl">0</span>, tmp.emgn <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">5</span>, clvng.ints <span class="op">=</span> <span class="cn">F</span></span>
+<span>  <span class="va">phi</span>, <span class="va">lambda</span>, <span class="va">exp_N_init</span>, <span class="va">sim_len</span>, <span class="va">srvy_yrs</span>, <span class="va">k</span>,</span>
+<span>  <span class="va">fnl_yr</span>, <span class="va">p</span>, <span class="va">L</span>, <span class="va">imaf</span>, clvng.p <span class="op">=</span> <span class="fl">0</span>, tmp.emgn <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="va">alpha</span>, clvng.ints <span class="op">=</span> <span class="cn">F</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Look at it</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    ID mum dad C20 Cvg20</span></span>
-<span><span class="co">#&gt; 10 10  NA  NA   1     0</span></span>
-<span><span class="co">#&gt; 11 11  NA  NA   1     0</span></span>
-<span><span class="co">#&gt; 20 20  NA  NA   1     0</span></span>
-<span><span class="co">#&gt; 28 28  10  14   1     1</span></span>
-<span><span class="co">#&gt; 32 32  21  18   1     0</span></span>
-<span><span class="co">#&gt; 39 39   3  19   1     1</span></span></code></pre></div>
+<span><span class="co">#&gt;        ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020</span></span>
+<span><span class="co">#&gt; 455   455 159  71     0     1     0       1       1       1</span></span>
+<span><span class="co">#&gt; 506   506 115 150     1     0     0       0       0       0</span></span>
+<span><span class="co">#&gt; 536   536 116 192     1     0     0       0       0       0</span></span>
+<span><span class="co">#&gt; 1012 1012 411  65     0     1     0       0       0       0</span></span>
+<span><span class="co">#&gt; 1035 1035  16 369     0     1     1       1       1       1</span></span>
+<span><span class="co">#&gt; 1052 1052 478 480     1     0     0       0       0       0</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       </span></span>
 <span><span class="co">#&gt;  [6] "N.t.vec"     "ns.caps"     "Ns"          "ns.clvng"    "alive"      </span></span>
 <span><span class="co">#&gt; [11] "alv.s.yrs"   "f.age"       "mum"         "dad"         "ID"         </span></span>
 <span><span class="co">#&gt; [16] "ind.gts"</span></span></code></pre></div>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
