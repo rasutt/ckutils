@@ -37,8 +37,8 @@ ckutils simulates populations in which the expected population size
 grows by a constant factor called the population growth rate $\lambda$.
 Specifying this rate along with the expected population size $N$ in a
 reference year defines the expected population size in all years. It is
-good to check these as very small population sizes can be unsustainable,
-and very large ones slow to simulate.
+good to check them for the entire simulation, as very small population
+sizes can be unsustainable, and very large ones slow to simulate.
 
 ``` r
 # Load close-kin utilities package
@@ -86,7 +86,7 @@ essential to a successful study.
 phi = 0.9
 alpha = 8
 
-# Capture probability
+# Sampling probability
 p = 0.1
 
 # Survey year indices
@@ -99,23 +99,43 @@ k = length(srvy_yrs)
 rho = lambda - phi
 
 # Find expected numbers of kin-pairs in population
-find_exp_ns_kps(exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k)
-#> $wtn
-#>       N.s.yrs      APs     POPs     SMPs     SFPs     FSPs      HSPs
-#> [1,] 223.7219 24913.89 265.6698 462.7737 477.7093 10.34484  919.7933
-#> [2,] 234.9080 27473.44 278.9533 485.9124 501.6192 10.34484  966.8419
-#> [3,] 246.6534 30295.64 292.9010 510.2080 526.7247 10.34484 1016.2430
-#> 
-#> $btn
-#>           APs       SPs     POPs     SMPs SMPs.kwn.age     SFPs     FSPs
-#> [1,] 52554.09 132.10557 566.1997 879.5848     4.159592 863.9176 17.60714
-#> [2,] 55181.79  78.00702 545.6511 646.3162     2.020720 624.3719 11.86953
-#> [3,] 57940.88 138.71085 594.5097 923.5640     4.367572 907.1424 17.60080
-#>          HSPs
-#> [1,] 1708.288
-#> [2,] 1246.949
-#> [3,] 1795.505
+exp_ns_kps = find_exp_ns_kps(
+  exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k
+)
+
+# Kin-pair types
+kpts = c(
+  "Population sizes", "All pairs", "Self-pairs", 
+  "Parent-offspring pairs", 
+  "Same-mother pairs", "Same-father pairs", "Full-sibling pairs", 
+  "Half-sibling pairs"
+)
+
+# Survey years and pairs
+s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
+
+# Combine expected numbers of kin-pairs within and between surveys in one data
+# frame for display
+exp_ns_kps_df = cmbn_exp_ns_kps(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs)
+
+# Display it nicely
+knitr::kable(
+  exp_ns_kps_df, caption = "Predicted numbers of kin-pairs in population"
+)
 ```
+
+|                        |    2010 |    2015 |    2020 | 2010-2015 | 2010-2020 | 2015-2020 |
+|:-----------------------|--------:|--------:|--------:|----------:|----------:|----------:|
+| Population sizes       |   223.7 |   234.9 |   246.7 |        NA |        NA |        NA |
+| All pairs              | 24913.9 | 27473.4 | 30295.6 |   52554.1 |   55181.8 |   57940.9 |
+| Self-pairs             |      NA |      NA |      NA |     132.1 |      78.0 |     138.7 |
+| Parent-offspring pairs |   265.7 |   279.0 |   292.9 |     566.2 |     545.7 |     594.5 |
+| Same-mother pairs      |   462.8 |   485.9 |   510.2 |     879.6 |     646.3 |     923.6 |
+| Same-father pairs      |   477.7 |   501.6 |   526.7 |     863.9 |     624.4 |     907.1 |
+| Full-sibling pairs     |    10.3 |    10.3 |    10.3 |      17.6 |      11.9 |      17.6 |
+| Half-sibling pairs     |   919.8 |   966.8 |  1016.2 |    1708.3 |    1246.9 |    1795.5 |
+
+Predicted numbers of kin-pairs in population
 
 ### Simulate population and study
 
@@ -159,12 +179,12 @@ pop_study = sim_pop_study(
 # Look at it
 head(pop_study)
 #>      ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020
-#> 297 297  29   8     1     0     0       1       0       0
-#> 474 474 112  70     1     0     0       0       0       0
-#> 618 618 223 258     1     1     0       0       0       0
-#> 660 660 262 147     1     0     0       1       1       1
-#> 686 686  40 218     0     1     0       0       0       0
-#> 723 723 190 139     1     0     0       0       0       0
+#> 286 286  70  58     1     0     0       0       0       0
+#> 460 460  90 111     0     0     1       1       1       1
+#> 464 464 138  48     1     0     0       1       0       0
+#> 465 465  21  45     1     0     0       1       1       1
+#> 480 480  32 122     0     0     1       1       1       1
+#> 547 547 115  43     1     0     0       1       1       1
 ```
 
 ``` r

@@ -1,4 +1,4 @@
-#' Title Find expected numbers of kin-pairs in population
+#' Find expected numbers of kin-pairs in population
 #'
 #' @param exp.N.t Expected population size over time
 #' @param s.yr.inds Survey-year indices
@@ -134,4 +134,54 @@ find_exp_ns_kps = function(
   )
 }
 
+#' Combine expected numbers of kin-pairs within and between surveys in one data
+#' frame for display
+#'
+#' @inheritParams find_exp_ns_kps
+#' @inheritParams plot_exp_pop
+#' @param exp_ns_kps Expected numbers of kin-pairs, as output by
+#'   find_exp_ns_kps. A list of two matrices, both with rows for kinship-types,
+#'   one with columns for survey-years and one for pairs of survey-years
+#' @param kpts Kin-pair types
+#' @param s_yr_prs Pairs of survey years
+#'
+#' @return A data frame with rows for kin-pair types, and columns for survey
+#'   years and pairs
+#' @export
+#'
+#' @examples
+#'
+#'
+cmbn_exp_ns_kps = function(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs) {
+  # Combine numbers within and between surveys in one table
+  exp_ns_kps_wtn = t(exp_ns_kps$wtn)
+  exp_ns_kps_cmbd = cbind(
+    # Within surveys
+    rbind(
+      # Population sizes and total numbers of pairs
+      exp_ns_kps_wtn[1:2, ],
 
+      # Self-pairs don't apply
+      rep(NA, k),
+
+      # Other close-kin pairs
+      exp_ns_kps_wtn[-(1:2), ]
+    ),
+
+    # Between survey-pairs
+    rbind(
+      # Population sizes don't apply
+      rep(NA, choose(k, 2)),
+
+      # Other close-kin pairs
+      t(exp_ns_kps$btn)[-5, ]
+    )
+  )
+
+  # Round and make data frame with row and column-names
+  exp_ns_kps_df = data.frame(round(exp_ns_kps_cmbd, 1), row.names = kpts)
+  names(exp_ns_kps_df) = c(srvy_yrs, s_yr_prs)
+
+  # Return it
+  exp_ns_kps_df
+}

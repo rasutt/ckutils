@@ -37,7 +37,7 @@ This is a basic example which shows you how to simulate a wildlife population an
 
 Close-kin studies use the probabilities of close family relationships between pairs of sampled animals (close-kin pairs). These relationships are defined by the breeding events that occur prior to sampling, so ckutils lets you specify the number of years to simulate the population prior to the final survey year. This needs to be long enough that most of the relevant breeding events occur during the simulation.
 
-ckutils simulates populations in which the expected population size grows by a constant factor called the population growth rate $\lambda$. Specifying this rate along with the expected population size $N$ in a reference year defines the expected population size in all years. It is good to check these as very small population sizes can be unsustainable, and very large ones slow to simulate.
+ckutils simulates populations in which the expected population size grows by a constant factor called the population growth rate $\lambda$. Specifying this rate along with the expected population size $N$ in a reference year defines the expected population size in all years. It is good to check them for the entire simulation, as very small population sizes can be unsustainable, and very large ones slow to simulate.
 
 ```{r example}
 # Load close-kin utilities package
@@ -76,7 +76,7 @@ These parameters, along with the population and survey parameters above, allow f
 phi = 0.9
 alpha = 8
 
-# Capture probability
+# Sampling probability
 p = 0.1
 
 # Survey year indices
@@ -89,7 +89,29 @@ k = length(srvy_yrs)
 rho = lambda - phi
 
 # Find expected numbers of kin-pairs in population
-find_exp_ns_kps(exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k)
+exp_ns_kps = find_exp_ns_kps(
+  exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k
+)
+
+# Kin-pair types
+kpts = c(
+  "Population sizes", "All pairs", "Self-pairs", 
+  "Parent-offspring pairs", 
+  "Same-mother pairs", "Same-father pairs", "Full-sibling pairs", 
+  "Half-sibling pairs"
+)
+
+# Survey years and pairs
+s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
+
+# Combine expected numbers of kin-pairs within and between surveys in one data
+# frame for display
+exp_ns_kps_df = cmbn_exp_ns_kps(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs)
+
+# Display it nicely
+knitr::kable(
+  exp_ns_kps_df, caption = "Predicted numbers of kin-pairs in population"
+)
 ```
 
 ### Simulate population and study

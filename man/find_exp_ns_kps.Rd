@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_exp_ns_kps.R
 \name{find_exp_ns_kps}
 \alias{find_exp_ns_kps}
-\title{Title Find expected numbers of kin-pairs in population}
+\title{Find expected numbers of kin-pairs in population}
 \usage{
 find_exp_ns_kps(exp.N.t, s.yr.inds, phi, rho, lambda, alpha, srvy.yrs, k)
 }
@@ -28,7 +28,7 @@ A list of two matrices, both with rows for kinship-types, one with
 columns for survey-years and one for pairs of survey-years.
 }
 \description{
-Title Find expected numbers of kin-pairs in population
+Find expected numbers of kin-pairs in population
 }
 \examples{
 find_exp_ns_kps(
