@@ -2,29 +2,23 @@
 % Please edit documentation in R/find_exp_ns_kps.R
 \name{cmbn_exp_ns_kps}
 \alias{cmbn_exp_ns_kps}
-\title{Combine expected numbers of kin-pairs within and between surveys in one data
-frame for display}
+\title{Combine expected numbers of kin-pairs within and between surveys in one
+matrix}
 \usage{
-cmbn_exp_ns_kps(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs)
+cmbn_exp_ns_kps(exp_ns_kps, k)
 }
 \arguments{
 \item{exp_ns_kps}{Expected numbers of kin-pairs, as output by
-find_exp_ns_kps. A list of two matrices, both with rows for kinship-types,
-one with columns for survey-years and one for pairs of survey-years}
+find_exp_ns_kps. A list of two matrices, both with rows for survey-years
+and one for pairs of survey-years, one with columns for kinship-types}
 
 \item{k}{Number of survey-years}
-
-\item{kpts}{Kin-pair types}
-
-\item{srvy_yrs}{Survey years}
-
-\item{s_yr_prs}{Pairs of survey years}
 }
 \value{
-A data frame with rows for kin-pair types, and columns for survey
-years and pairs
+A matrix with rows for survey years and pairs, and columns for
+kin-pair types
 }
 \description{
-Combine expected numbers of kin-pairs within and between surveys in one data
-frame for display
+Combine expected numbers of kin-pairs within and between surveys in one
+matrix
 }

@@ -103,39 +103,34 @@ exp_ns_kps = find_exp_ns_kps(
   exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k
 )
 
-# Kin-pair types
-kpts = c(
-  "Population sizes", "All pairs", "Self-pairs", 
-  "Parent-offspring pairs", 
-  "Same-mother pairs", "Same-father pairs", "Full-sibling pairs", 
-  "Half-sibling pairs"
-)
+# Combine expected numbers of kin-pairs within and between surveys in one matrix
+exp_ns_kps_cmbd = cmbn_exp_ns_kps(exp_ns_kps, k)
 
-# Survey years and pairs
-s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
-
-# Combine expected numbers of kin-pairs within and between surveys in one data
-# frame for display
-exp_ns_kps_df = cmbn_exp_ns_kps(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs)
+# Find expected numbers of kin-pairs between sampled animals
+exp_ns_kps_smpd = find_exp_ns_kps_smpd(exp_ns_kps_cmbd, k, p)
+  
+# Make it a data frame with row and column-names
+exp_ns_kps_smpd_df = make_exp_ns_kps_smpd_df(srvy_yrs, exp_ns_kps_smpd)
 
 # Display it nicely
 knitr::kable(
-  exp_ns_kps_df, caption = "Predicted numbers of kin-pairs in population"
+  exp_ns_kps_smpd_df, 
+  caption = "Predicted numbers of kin-pairs between sampled animals",
 )
 ```
 
-|                        |    2010 |    2015 |    2020 | 2010-2015 | 2010-2020 | 2015-2020 |
-|:-----------------------|--------:|--------:|--------:|----------:|----------:|----------:|
-| Population sizes       |   223.7 |   234.9 |   246.7 |        NA |        NA |        NA |
-| All pairs              | 24913.9 | 27473.4 | 30295.6 |   52554.1 |   55181.8 |   57940.9 |
-| Self-pairs             |      NA |      NA |      NA |     132.1 |      78.0 |     138.7 |
-| Parent-offspring pairs |   265.7 |   279.0 |   292.9 |     566.2 |     545.7 |     594.5 |
-| Same-mother pairs      |   462.8 |   485.9 |   510.2 |     879.6 |     646.3 |     923.6 |
-| Same-father pairs      |   477.7 |   501.6 |   526.7 |     863.9 |     624.4 |     907.1 |
-| Full-sibling pairs     |    10.3 |    10.3 |    10.3 |      17.6 |      11.9 |      17.6 |
-| Half-sibling pairs     |   919.8 |   966.8 |  1016.2 |    1708.3 |    1246.9 |    1795.5 |
+|                        |  2010 |  2015 |  2020 | 2010-2015 | 2010-2020 | 2015-2020 |
+|:-----------------------|------:|------:|------:|----------:|----------:|----------:|
+| Number sampled         |  22.4 |  23.5 |  24.7 |        NA |        NA |        NA |
+| All pairs              | 239.1 | 264.2 | 291.9 |     525.5 |     551.8 |     579.4 |
+| Self-pairs             |    NA |    NA |    NA |       1.3 |       0.8 |       1.4 |
+| Parent-offspring pairs |   2.5 |   2.7 |   2.8 |       5.7 |       5.5 |       5.9 |
+| Same-mother pairs      |   4.4 |   4.7 |   4.9 |       8.8 |       6.5 |       9.2 |
+| Same-father pairs      |   4.6 |   4.8 |   5.1 |       8.6 |       6.2 |       9.1 |
+| Full-sibling pairs     |   0.1 |   0.1 |   0.1 |       0.2 |       0.1 |       0.2 |
+| Half-sibling pairs     |   8.8 |   9.3 |   9.8 |      17.1 |      12.5 |      18.0 |
 
-Predicted numbers of kin-pairs in population
+Predicted numbers of kin-pairs between sampled animals
 
 ### Simulate population and study
 
@@ -179,12 +174,12 @@ pop_study = sim_pop_study(
 # Look at it
 head(pop_study)
 #>      ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020
-#> 286 286  70  58     1     0     0       0       0       0
-#> 460 460  90 111     0     0     1       1       1       1
-#> 464 464 138  48     1     0     0       1       0       0
-#> 465 465  21  45     1     0     0       1       1       1
-#> 480 480  32 122     0     0     1       1       1       1
-#> 547 547 115  43     1     0     0       1       1       1
+#> 8     8  NA  NA     1     0     0       1       1       0
+#> 264 264  14  37     0     0     1       1       1       1
+#> 354 354 125  76     1     0     0       0       0       0
+#> 373 373  46  72     0     1     0       1       1       1
+#> 404 404  32 102     1     0     0       1       0       0
+#> 727 727 348 105     0     0     1       1       1       1
 ```
 
 ``` r

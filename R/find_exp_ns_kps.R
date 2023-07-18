@@ -134,54 +134,114 @@ find_exp_ns_kps = function(
   )
 }
 
-#' Combine expected numbers of kin-pairs within and between surveys in one data
-#' frame for display
+#' Combine expected numbers of kin-pairs within and between surveys in one
+#' matrix
 #'
 #' @inheritParams find_exp_ns_kps
-#' @inheritParams plot_exp_pop
 #' @param exp_ns_kps Expected numbers of kin-pairs, as output by
-#'   find_exp_ns_kps. A list of two matrices, both with rows for kinship-types,
-#'   one with columns for survey-years and one for pairs of survey-years
-#' @param kpts Kin-pair types
-#' @param s_yr_prs Pairs of survey years
+#'   find_exp_ns_kps. A list of two matrices, both with rows for survey-years
+#'   and one for pairs of survey-years, one with columns for kinship-types
 #'
-#' @return A data frame with rows for kin-pair types, and columns for survey
-#'   years and pairs
+#' @return A matrix with rows for survey years and pairs, and columns for
+#'   kin-pair types
 #' @export
 #'
 #' @examples
 #'
 #'
-cmbn_exp_ns_kps = function(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs) {
-  # Combine numbers within and between surveys in one table
-  exp_ns_kps_wtn = t(exp_ns_kps$wtn)
-  exp_ns_kps_cmbd = cbind(
+cmbn_exp_ns_kps = function(exp_ns_kps, k) {
+  rbind(
     # Within surveys
-    rbind(
+    cbind(
       # Population sizes and total numbers of pairs
-      exp_ns_kps_wtn[1:2, ],
+      exp_ns_kps$wtn[, 1:2],
 
       # Self-pairs don't apply
       rep(NA, k),
 
       # Other close-kin pairs
-      exp_ns_kps_wtn[-(1:2), ]
+      exp_ns_kps$wtn[, -(1:2)]
     ),
 
     # Between survey-pairs
-    rbind(
+    cbind(
       # Population sizes don't apply
       rep(NA, choose(k, 2)),
 
       # Other close-kin pairs
-      t(exp_ns_kps$btn)[-5, ]
+      exp_ns_kps$btn[, -5]
     )
   )
+}
+
+#' Find expected numbers of kin-pairs between sampled animals
+#'
+#' @inheritParams find_exp_ns_kps
+#' @param exp_ns_kps_cmbd Expected numbers of kin-pairs, as output by
+#'   cmbn_exp_ns_kps. A matrix with rows for survey years and pairs, and columns
+#'   for kin-pair types
+#' @param p Sampling probability
+#'
+#' @return A matrix with rows for survey years and pairs, and columns for
+#'   kin-pair types
+#' @export
+#'
+#' @examples
+#'
+find_exp_ns_kps_smpd = function(exp_ns_kps_cmbd, k, p) {
+  # Expected numbers of animals sampled
+  exp_ns_smpd = exp_ns_kps_cmbd[1:k, "N.s.yrs"] * p
+
+  # Predicted total numbers of pairs among sampled animals, within surveys, and
+  # between survey-pairs
+  pred_ns_APs_smpd = c(
+    choose(exp_ns_smpd, 2),
+    utils::combn(exp_ns_smpd, 2, function(ns) ns[1] * ns[2])
+  )
+
+  cbind(
+    # Numbers sampled, not applicable to survey-pairs
+    c(exp_ns_smpd, rep(NA, choose(k, 2))),
+
+    # Total numbers of pairs
+    pred_ns_APs_smpd,
+
+    # Close-kin pairs. Probabilities from numbers in population multiplied by
+    # total numbers of pairs.
+    exp_ns_kps_cmbd[, -(1:2)] / exp_ns_kps_cmbd[, 2] * pred_ns_APs_smpd
+  )
+}
+
+#' Make data frame for expected numbers of kin-pairs between sampled animals
+#'
+#' @inheritParams find_exp_ns_kps
+#' @param exp_ns_kps_smpd Expected numbers of kin-pairs between sampled animals,
+#'   as output by exp_ns_kps_smpd. A matrix with rows for survey years and
+#'   pairs, and columns for kin-pair types
+#'
+#' @return A data frame with row and column-names
+#' @export
+#'
+#' @examples
+#'
+make_exp_ns_kps_smpd_df <- function(srvy_yrs, exp_ns_kps_smpd) {
+  # Kin-pair types
+  kpts = c(
+    "Number sampled", "All pairs", "Self-pairs",
+    "Parent-offspring pairs",
+    "Same-mother pairs", "Same-father pairs", "Full-sibling pairs",
+    "Half-sibling pairs"
+  )
+
+  # Survey years and pairs
+  s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
 
   # Round and make data frame with row and column-names
-  exp_ns_kps_df = data.frame(round(exp_ns_kps_cmbd, 1), row.names = kpts)
-  names(exp_ns_kps_df) = c(srvy_yrs, s_yr_prs)
+  exp_ns_kps_smpd_df = data.frame(
+    round(t(exp_ns_kps_smpd), 1), row.names = kpts
+  )
+  names(exp_ns_kps_smpd_df) = c(srvy_yrs, s_yr_prs)
 
   # Return it
-  exp_ns_kps_df
+  exp_ns_kps_smpd_df
 }

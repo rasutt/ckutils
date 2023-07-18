@@ -93,24 +93,19 @@ exp_ns_kps = find_exp_ns_kps(
   exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k
 )
 
-# Kin-pair types
-kpts = c(
-  "Population sizes", "All pairs", "Self-pairs", 
-  "Parent-offspring pairs", 
-  "Same-mother pairs", "Same-father pairs", "Full-sibling pairs", 
-  "Half-sibling pairs"
-)
+# Combine expected numbers of kin-pairs within and between surveys in one matrix
+exp_ns_kps_cmbd = cmbn_exp_ns_kps(exp_ns_kps, k)
 
-# Survey years and pairs
-s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
-
-# Combine expected numbers of kin-pairs within and between surveys in one data
-# frame for display
-exp_ns_kps_df = cmbn_exp_ns_kps(exp_ns_kps, k, kpts, srvy_yrs, s_yr_prs)
+# Find expected numbers of kin-pairs between sampled animals
+exp_ns_kps_smpd = find_exp_ns_kps_smpd(exp_ns_kps_cmbd, k, p)
+  
+# Make it a data frame with row and column-names
+exp_ns_kps_smpd_df = make_exp_ns_kps_smpd_df(srvy_yrs, exp_ns_kps_smpd)
 
 # Display it nicely
 knitr::kable(
-  exp_ns_kps_df, caption = "Predicted numbers of kin-pairs in population"
+  exp_ns_kps_smpd_df, 
+  caption = "Predicted numbers of kin-pairs between sampled animals",
 )
 ```
 
