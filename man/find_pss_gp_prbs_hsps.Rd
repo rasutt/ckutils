@@ -9,6 +9,10 @@ find_pss_gp_prbs_hsps(pss_gp_prbs_ups, pss_gp_prbs_pops)
 \arguments{
 \item{pss_gp_prbs_pops}{}
 }
+\value{
+Array with dimensions (number of possible genotypes x number of
+possible genotypes x number of loci)
+}
 \description{
 Find possible genopair probabilities for half-sibling pairs
 }

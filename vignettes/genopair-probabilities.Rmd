@@ -48,6 +48,7 @@ n_pss_gts = 3
 pss_gt_prbs = find_pss_gt_prbs(ale_frqs)
 dfr2(pss_gt_prbs[, 1:10])
 
+# Set genopair probability array dimension names
 pfgps_dimnames = list(
   first_genotype = c("GT00", "GT01", "GT11"),
   second_genotype = c("GT00", "GT01", "GT11"),
@@ -73,6 +74,13 @@ dfr2(pss_gp_prbs_sps[, , 1])
 # Find possible genopair probabilities for half-sibling pairs
 pss_gp_prbs_hsps = find_pss_gp_prbs_hsps(pss_gp_prbs_ups, pss_gp_prbs_pops)
 dfr2(pss_gp_prbs_hsps[, , 1])
+
+# Find possible genopair probabilities for multiple close-kinships
+pss_gp_prbs_kps = find_pss_gp_prbs_kps(gts, L, cks = c("HSP", "POP", "SP"))
+dfr2(pss_gp_prbs_kps[, , "L1", "UP"])
+dfr2(pss_gp_prbs_kps[, , "L1", "HSP"])
+dfr2(pss_gp_prbs_kps[, , "L1", "POP"])
+dfr2(pss_gp_prbs_kps[, , "L1", "SP"])
 ```
 
 

@@ -70,8 +70,8 @@ find_pss_frst_gt_prbs = function(pss_gt_prbs, L) {
 #' @param pss_frst_gt_prbs Possible genotype probabilities for the first
 #'   genotype in each genopair
 #'
-#' @return Array (Number of possible genotypes x number of possible genotypes x
-#'   number of loci)
+#' @return Array with dimensions (number of possible genotypes x number of
+#'   possible genotypes x number of loci)
 #' @export
 #'
 #' @examples
@@ -88,7 +88,8 @@ find_pss_gp_prbs_ups = function(pss_frst_gt_prbs) {
 #' @inheritParams find_pss_frst_gt_prbs
 #' @inheritParams find_pss_gp_prbs_ups
 #'
-#' @return
+#' @return Array with dimensions (number of possible genotypes x number of
+#'   possible genotypes x number of loci)
 #' @export
 #'
 #' @examples
@@ -123,7 +124,8 @@ find_pss_gp_prbs_pops = function(ale_frqs, L, pss_frst_gt_prbs) {
 #'
 #' @inheritParams find_pss_gp_prbs_pops
 #'
-#' @return
+#' @return Array with dimensions (number of possible genotypes x number of
+#'   possible genotypes x number of loci)
 #' @export
 #'
 #' @examples
@@ -151,7 +153,8 @@ find_pss_gp_prbs_sps = function(pss_frst_gt_prbs, L) {
 #' @param pss_gp_prbs_ups
 #' @param pss_gp_prbs_pops
 #'
-#' @return
+#' @return Array with dimensions (number of possible genotypes x number of
+#'   possible genotypes x number of loci)
 #' @export
 #'
 #' @examples
@@ -161,138 +164,72 @@ find_pss_gp_prbs_hsps = function(pss_gp_prbs_ups, pss_gp_prbs_pops) {
   (pss_gp_prbs_ups + pss_gp_prbs_pops) / 2
 }
 
-# Function to find possible genotype probabilities for all studies
-FindPssGtPrbsAry = function(ale_frqs.ary) {
-  # Indexing the 2 x L x n_sims allele frequencies array for each allele of
-  # each possible genotype (globally defined for SNP genotypes), and multiplying
-  # by 2 possible cases for heterozygous genotypes
-  ary = ale_frqs.ary[ales.1.inds, , , drop = F] *
-    ale_frqs.ary[ales.2.inds, , , drop = F]
-  ary[ales.1.inds != ales.2.inds, , ] =
-    ary[ales.1.inds != ales.2.inds, , , drop = F] * 2
-  ary
-}
+#' Find possible genopair probabilities over multiple loci given multiple
+#' close-kinships
+#'
+#' @inheritParams find_ale_frqs
+#' @inheritParams find_pss_frst_gt_prbs
+#' @param cks Vector of codes representing kinships for which to calculate
+#'   possible genopair probabilities
+#'
+#' @return Array with dimensions (number of possible genotypes x number of
+#'   possible genotypes x number of loci x number of kinships)
+#' @export
+#'
+#' @examples
+find_pss_gp_prbs_kps = function(gts, L, cks = c("HSP", "POP", "SP")) {
+  # Find allele frequencies
+  ale_frqs = find_ale_frqs(gts)
 
-# Function to find possible first genotype probabilities for genopairs for all
-# studies, 3 x 3 x n_loci x n_sims
-FindPssFrstGtPrbsAry = function(pss.gt.prbs.ary, L, n.sims) {
-  # 3 x n_loci x n_sims array indexed 3 times to fill three columns.
-  array(
-    pss.gt.prbs.ary[, rep(1:L, each = n.pss.gts), ],
-    c(n.pss.gts, n.pss.gts, L, n.sims)
-  )
-}
+  # Set number of possible genotypes to allow for more later
+  n_pss_gts = 3
 
-# Function to find possible genopair probabilities for unrelated pairs
-FindPssGpPsUPsAry = function(pss.gt.1.prbs.ary) {
-  # Products of the respective genotype probabilities, the second found by
-  # permuting the array containing the first.
-  pss.gt.1.prbs.ary * aperm(pss.gt.1.prbs.ary, c(2, 1, 3, 4))
-}
-
-# Function to find possible genopair probabilities for parent-offspring pairs
-FindPssGpPsPOPsAry = function(pss.gt.1.prbs.ary, ale_frqs.ary, L, n.sims) {
-  # Conditional probabilities given that the pair are parent and offspring
-  # (unordered). Products of the first genotype probabilities and the
-  # conditional probabilities of the second genotypes given that the pair are
-  # parent and offspring.
-  pss.gt.1.prbs.ary *
-
-    # Conditional probabilities of second genotype given that the pair are
-    # parent and offspring (unordered).  0.5 for each allele in first genotype
-    # being inherited, multiplied by the probability of the second genotype in
-    # each case, as in table 3, pg. 269, Bravingtion et al. (2016) Close-Kin
-    # Mark-Recapture. Filled into an L x n_sims x 3 x 3 array which is permuted
-    # to the standard dimensions.
-    aperm(
-      array(
-        # Note: order data enters array is down columns, not across rows
-        c(
-          ale_frqs.ary[1, , ], 0.5 * ale_frqs.ary[1, , ], rep(0, L * n.sims),
-          ale_frqs.ary[2, , ], rep(0.5, L * n.sims), ale_frqs.ary[1, , ],
-          rep(0, L * n.sims), 0.5 * ale_frqs.ary[2, , ], ale_frqs.ary[2, , ]
-        ),
-        c(L, n.sims, n.pss.gts, n.pss.gts)
-      ),
-      c(3, 4, 1, 2)
-    )
-}
-
-# Function to find possible genopair probabilities for self-pairs
-FindPssGpPsSPsAry = function(pss.gt.prbs.ary, L, n.sims) {
-  # Conditional probabilities given that the pair are the same individual
-  # sampled twice. Genotype probabilities when the genotypes are the same, and
-  # zero otherwise.
-  aperm(
-    array(
-      cbind(
-        as.vector(pss.gt.prbs.ary[1, , ]), 0, 0,
-        0, as.vector(pss.gt.prbs.ary[2, , ]), 0,
-        0, 0, as.vector(pss.gt.prbs.ary[3, , ])
-      ),
-      c(L, n.sims, n.pss.gts, n.pss.gts)
-    ),
-    c(3, 4, 1, 2)
-  )
-}
-
-# Function to find possible genopair probabilities for half-sibling pairs
-FindPssGpPsHSPs = function(pss.gp.prbs.UP, pss.gp.prbs.POP) {
-  # Conditional probabilities given that the pair are half-siblings.  Average of
-  # probabilities for unrelated and parent-offspring pairs.
-  (pss.gp.prbs.UP + pss.gp.prbs.POP) / 2
-}
-
-# Function to find possible genopair probabilities for half-sibling pairs
-FindPssGpPsHSPsAry = function(pss.gp.prbs.UP.ary, pss.gp.prbs.POP.ary) {
-  # Conditional probabilities given that the pair are half-siblings.  Average of
-  # probabilities for unrelated and parent-offspring pairs.
-  (pss.gp.prbs.UP.ary + pss.gp.prbs.POP.ary) / 2
-}
-
-# Function to find possible genopair probabilities over multiple loci given
-# multiple kinships
-FindPssGPPsKPs = function(ale_frqs, L, knshp.st) {
   # Find possible genotype probabilities
-  pss.gt.prbs = FindPssGtPrbs(ale_frqs)
+  pss_gt_prbs = find_pss_gt_prbs(ale_frqs)
+
+  # Set genopair probability array dimension names
+  pfgps_dimnames = list(
+    first_genotype = c("GT00", "GT01", "GT11"),
+    second_genotype = c("GT00", "GT01", "GT11"),
+    locus = colnames(pss_gt_prbs)
+  )
 
   # Find possible first genotype probabilities for genopairs
-  pss.gt.1.prbs = FindPssFrstGtPrbs(pss.gt.prbs, L)
+  pss_frst_gt_prbs = find_pss_frst_gt_prbs(pss_gt_prbs, L)
 
   # Find possible genopair probabilities for unrelated pairs
-  pss.gp.prbs.UP = FindPssGpPsUPs(pss.gt.1.prbs)
+  pss_gp_prbs_ups = find_pss_gp_prbs_ups(pss_frst_gt_prbs)
+
+  # Set genopair probabilities to NULL
+  pss_gp_prbs_pops = pss_gp_prbs_sps = pss_gp_prbs_hsps = NULL
 
   # If parent-offspring pairs in kinship set selected
-  if("Parent-offspring" %in% knshp.st) {
+  if("POP" %in% cks) {
     # Find possible genopair probabilities for parent-offspring pairs
-    pss.gp.prbs.POP = FindPssGpPsPOPs(ale_frqs, L, pss.gt.1.prbs)
-  } else {
-    pss.gp.prbs.POP = NULL
+    pss_gp_prbs_pops = find_pss_gp_prbs_pops(ale_frqs, L, pss_frst_gt_prbs)
   }
 
   # If self-pairs in kinship set selected
-  if("Self" %in% knshp.st) {
-    # Function to find possible genopair probabilities for self-pairs
-    pss.gp.prbs.SP = FindPssGpPsSPs(pss.gt.1.prbs, L)
-  } else {
-    pss.gp.prbs.SP = NULL
+  if("SP" %in% cks) {
+    # Find possible genopair probabilities for self pairs
+    pss_gp_prbs_sps = find_pss_gp_prbs_sps(pss_frst_gt_prbs, L)
   }
 
   # If half-sibling pairs in kinship set selected
-  if("Half-sibling" %in% knshp.st) {
+  if("HSP" %in% cks) {
     # Find possible genopair probabilities for half-sibling pairs
-    pss.gp.prbs.HSP = FindPssGpPsHSPs(pss.gp.prbs.UP, pss.gp.prbs.POP)
-  } else {
-    pss.gp.prbs.HSP = NULL
+    pss_gp_prbs_hsps = find_pss_gp_prbs_hsps(pss_gp_prbs_ups, pss_gp_prbs_pops)
   }
+
+  # Set close kinships
+  close_kps = c("HSP", "POP", "SP")
 
   # Combine genopair probabilities for selected kinships and return
   array(
-    c(pss.gp.prbs.UP, pss.gp.prbs.HSP, pss.gp.prbs.POP, pss.gp.prbs.SP),
-    dim = c(n.pss.gts, n.pss.gts, L, length(knshp.st) + 1),
-    dimnames = list(
-      gt.1 = pss.gt.lbls, gt.2 = pss.gt.lbls, Locus = paste0("L", 1:L),
-      Kinship = c("UP", c("HSP", "POP", "SP")[rev(knshp.chcs) %in% knshp.st])
+    c(pss_gp_prbs_ups, pss_gp_prbs_hsps, pss_gp_prbs_pops, pss_gp_prbs_sps),
+    dim = c(n_pss_gts, n_pss_gts, L, length(cks) + 1),
+    dimnames = c(
+      pfgps_dimnames, list(kinship = c("UP", close_kps[close_kps %in% cks]))
     )
   )
 }

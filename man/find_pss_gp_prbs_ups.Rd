@@ -11,8 +11,8 @@ find_pss_gp_prbs_ups(pss_frst_gt_prbs)
 genotype in each genopair}
 }
 \value{
-Array (Number of possible genotypes x number of possible genotypes x
-number of loci)
+Array with dimensions (number of possible genotypes x number of
+possible genotypes x number of loci)
 }
 \description{
 Find possible genopair probabilities for unrelated pairs

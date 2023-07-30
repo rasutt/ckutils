@@ -15,6 +15,10 @@ possible genotype}
 \item{pss_frst_gt_prbs}{Possible genotype probabilities for the first
 genotype in each genopair}
 }
+\value{
+Array with dimensions (number of possible genotypes x number of
+possible genotypes x number of loci)
+}
 \description{
 Find possible genopair probabilities for parent-offspring pairs
 }

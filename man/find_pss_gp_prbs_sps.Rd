@@ -12,6 +12,10 @@ genotype in each genopair}
 
 \item{L}{Number of loci in each genotype}
 }
+\value{
+Array with dimensions (number of possible genotypes x number of
+possible genotypes x number of loci)
+}
 \description{
 Find possible genopair probabilities for self-pairs
 }
