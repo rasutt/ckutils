@@ -127,7 +127,7 @@ L = 100
 imaf = 0.5
 
 # Set random seed for testing
-# set.seed(1)
+set.seed(1)
 
 # Simulate one population and study
 pop_study = sim_pop_study(
@@ -141,3 +141,8 @@ head(pop_study)
 ```{r}
 names(attributes(pop_study))
 ```
+```{r}
+# Save it to use in other vignettes
+save(list = ls(all.names = TRUE), file = "data/single_study.RData")
+```
+

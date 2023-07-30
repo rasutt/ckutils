@@ -1,0 +1,67 @@
+---
+title: "Genopair Probabilities"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{genopair-probabilities}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ckutils)
+```
+
+The conditional probability of observing a pair of genotypes (genopair) given that the animals have a particular family relationship (kinship) can be used to draw inferences about the true kinship between them. These conditional probabilities can be In close-kin models those inferences are used together with the probability of observing a pair of animals with a particular family relationship (kinpair) to draw inferences about the population dynamics and demographics parameters of interest.
+
+ckutils provides functions to compute genopair probabilities given a particular kinship between the animals. It assumes that the genotypes are biallelic, having two alleles at each locus, where one was inherited from each parent. 
+
+```{r}
+# Load a single simulated study
+load("../data/single_study.RData")
+
+# Get genotypes for sampled animals
+gts = attributes(pop_study)$ind.gts
+dimnames(gts) = 
+  list(allele = c("maternal", "paternal"), locus = paste0("L", 1:L))
+data.frame(gts[, 1:10, 1])
+
+# Find allele frequencies
+ale_frqs = find_ale_frqs(gts)
+dfr2(ale_frqs[, 1:10])
+
+# Find possible genotype probabilities
+pss_gt_prbs = find_pss_gt_prbs(ale_frqs)
+dfr2(pss_gt_prbs[, 1:10])
+
+# Find possible first genotype probabilities for genopairs
+pss_frst_gt_prbs = find_pss_frst_gt_prbs(pss_gt_prbs, L)
+dfr2(pss_frst_gt_prbs[, , 1])
+
+# Find possible genopair probabilities for unrelated pairs
+pss_gp_prbs_ups = find_pss_gp_prbs_ups(pss_frst_gt_prbs)
+dfr2(pss_gp_prbs_ups[, , 1])
+```
+
+
+
+## How kinship-conditional genopair probabilities are computed 
+
+At a locus with $l$ possible alleles, there are then $l$ possible homozygous genotypes, where the two alleles are the same, and ${l \choose 2} = l (l - 1) / 2$ heterozygous genotypes, where the two alleles are different, for a total of $g_t := l (l + 1) / 2$ possible genotypes, and $g_p := g_t^2 \approx l^4 / 4$ possible genopairs. 
+
+For a set of $n$ animals there are $n_p := {n \choose 2} = n (n - 1) / 2 \approx n^2 / 2$ pairs, so $n > \approx l^2 / 2 \implies n^2 / 2 > \approx l^4 / 4 \implies n_p > \approx g_p$ and it is likely to be faster to compute the probabilities for all possible genopairs, and look them up for each observed genopair, than to compute them independently.  
+
+The probability of a homozygous genotype $aa$ is approximated by $\mathcal{P}(aa) \approx p_a^2$, where $p_a$ is the relative frequency of allele $a$ in the set of genotypes being analysed.  The probability of a heterozygous genotype $ab$ is approximated by $\mathcal{P}(ab) \approx 2 p_a p_b$, where the factor of two account for the two ways that the genotype may have been inherited from the parents.
+
+```{r}
+
+```
+
+
+

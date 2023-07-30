@@ -67,6 +67,7 @@ test_active_file() # Ctrl + T
 test() # Ctrl + Shift + T
 
 use_vignette("simulating-populations-and-studies")
+use_vignette("genopair-probabilities")
 
 check()
 

@@ -163,7 +163,7 @@ L = 100
 imaf = 0.5
 
 # Set random seed for testing
-# set.seed(1)
+set.seed(1)
 
 # Simulate one population and study
 pop_study = sim_pop_study(
@@ -173,13 +173,13 @@ pop_study = sim_pop_study(
 
 # Look at it
 head(pop_study)
-#>      ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020
-#> 8     8  NA  NA     1     0     0       1       1       0
-#> 264 264  14  37     0     0     1       1       1       1
-#> 354 354 125  76     1     0     0       0       0       0
-#> 373 373  46  72     0     1     0       1       1       1
-#> 404 404  32 102     1     0     0       1       0       0
-#> 727 727 348 105     0     0     1       1       1       1
+#>        ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020
+#> 455   455 159  71     0     1     0       1       1       1
+#> 506   506 115 150     1     0     0       0       0       0
+#> 536   536 116 192     1     0     0       0       0       0
+#> 1012 1012 411  65     0     1     0       0       0       0
+#> 1035 1035  16 369     0     1     1       1       1       1
+#> 1052 1052 478 480     1     0     0       0       0       0
 ```
 
 ``` r
