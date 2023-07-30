@@ -9,7 +9,7 @@ find_pss_frst_gt_prbs(pss_gt_prbs, L)
 \arguments{
 \item{pss_gt_prbs}{Possible genotype probabilities}
 
-\item{L}{}
+\item{L}{Number of loci in each genotype}
 }
 \description{
 Find possible first genotype probabilities for genopairs, 3 x 3 x n_loci

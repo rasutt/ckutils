@@ -4,10 +4,11 @@
 \alias{find_pss_gp_prbs_ups}
 \title{Find possible genopair probabilities for unrelated pairs}
 \usage{
-find_pss_gp_prbs_ups(pss_gt_prbs)
+find_pss_gp_prbs_ups(pss_frst_gt_prbs)
 }
 \arguments{
-\item{pss_gt_prbs}{Possible genotype probabilities}
+\item{pss_frst_gt_prbs}{Possible genotype probabilities for the first
+genotype in each genopair}
 }
 \value{
 Array (Number of possible genotypes x number of possible genotypes x

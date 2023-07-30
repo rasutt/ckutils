@@ -32,13 +32,27 @@ dimnames(gts) =
   list(allele = c("maternal", "paternal"), locus = paste0("L", 1:L))
 data.frame(gts[, 1:10, 1])
 
+# Function to show data frames of rounded probabilities 
+dfr2 = function(mat) {
+  data.frame(round(mat, 2))
+}
+
 # Find allele frequencies
 ale_frqs = find_ale_frqs(gts)
 dfr2(ale_frqs[, 1:10])
 
+# Set number of possible genotypes to allow for more later
+n_pss_gts = 3
+
 # Find possible genotype probabilities
 pss_gt_prbs = find_pss_gt_prbs(ale_frqs)
 dfr2(pss_gt_prbs[, 1:10])
+
+pfgps_dimnames = list(
+  first_genotype = c("GT00", "GT01", "GT11"),
+  second_genotype = c("GT00", "GT01", "GT11"),
+  locus = colnames(pss_gt_prbs)
+)
 
 # Find possible first genotype probabilities for genopairs
 pss_frst_gt_prbs = find_pss_frst_gt_prbs(pss_gt_prbs, L)
@@ -47,6 +61,18 @@ dfr2(pss_frst_gt_prbs[, , 1])
 # Find possible genopair probabilities for unrelated pairs
 pss_gp_prbs_ups = find_pss_gp_prbs_ups(pss_frst_gt_prbs)
 dfr2(pss_gp_prbs_ups[, , 1])
+
+# Find possible genopair probabilities for parent-offspring pairs
+pss_gp_prbs_pops = find_pss_gp_prbs_pops(ale_frqs, L, pss_frst_gt_prbs)
+dfr2(pss_gp_prbs_pops[, , 1])
+
+# Find possible genopair probabilities for self pairs
+pss_gp_prbs_sps = find_pss_gp_prbs_sps(pss_frst_gt_prbs, L)
+dfr2(pss_gp_prbs_sps[, , 1])
+
+# Find possible genopair probabilities for half-sibling pairs
+pss_gp_prbs_hsps = find_pss_gp_prbs_hsps(pss_gp_prbs_ups, pss_gp_prbs_pops)
+dfr2(pss_gp_prbs_hsps[, , 1])
 ```
 
 
