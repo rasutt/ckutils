@@ -1,5 +1,14 @@
 # Functions to find possible genopair probabilities given various kinships
 
+# Set number of possible genotypes to allow for more later
+n_pss_gts = 3
+
+# Set genotype names
+gt_names = c("GT00", "GT01", "GT11")
+
+# Set genopair matrix row and column-names
+gnpr_names = list(first_genotype = gt_names, second_genotype = gt_names)
+
 #' Find allele frequencies
 #'
 #' @param ind_gts Genotypes in 2 x L x n_individuals arrays, representing two
@@ -41,7 +50,7 @@ find_pss_gt_prbs = function(ale_frqs) {
   # Multiply by two possible cases for heterozygous genotypes
   mat[ales_1_inds != ales_2_inds, ] = mat[ales_1_inds != ales_2_inds, ] * 2
   dimnames(mat) = list(
-    possible_genotype = c("GT00", "GT01", "GT11"), locus = colnames(ale_frqs)
+    possible_genotype = gt_names, locus = colnames(ale_frqs)
   )
   mat
 }
@@ -73,7 +82,7 @@ find_pss_frst_gt_prbs = function(pss_gt_prbs, L) {
   array(
     data = pss_gt_prbs[, rep(1:L, each = n_pss_gts)],
     dim = c(n_pss_gts, n_pss_gts, L),
-    dimnames = pfgps_dimnames
+    dimnames =  c(gnpr_names, list(locus = colnames(pss_gt_prbs)))
   )
 }
 
@@ -156,7 +165,7 @@ find_pss_gp_prbs_sps = function(pss_frst_gt_prbs, L) {
     ),
     c(2, 3, 1)
   )
-  dimnames(pss_gp_prbs_sps) = pfgps_dimnames
+  dimnames(pss_gp_prbs_sps) = dimnames(pss_frst_gt_prbs)
   pss_gp_prbs_sps
 }
 
@@ -190,22 +199,12 @@ find_pss_gp_prbs_hsps = function(pss_gp_prbs_ups, pss_gp_prbs_pops) {
 #' @export
 #'
 #' @examples
-find_pss_gp_prbs_kps = function(gts, L, cks = c("HSP", "POP", "SP")) {
+find_pss_gp_prbs_kps = function(ind_gts, L, cks = c("HSP", "POP", "SP")) {
   # Find allele frequencies
-  ale_frqs = find_ale_frqs(gts)
-
-  # Set number of possible genotypes to allow for more later
-  n_pss_gts = 3
+  ale_frqs = find_ale_frqs(ind_gts)
 
   # Find possible genotype probabilities
   pss_gt_prbs = find_pss_gt_prbs(ale_frqs)
-
-  # Set genopair probability array dimension names
-  pfgps_dimnames = list(
-    first_genotype = c("GT00", "GT01", "GT11"),
-    second_genotype = c("GT00", "GT01", "GT11"),
-    locus = colnames(pss_gt_prbs)
-  )
 
   # Find possible first genotype probabilities for genopairs
   pss_frst_gt_prbs = find_pss_frst_gt_prbs(pss_gt_prbs, L)
@@ -239,11 +238,11 @@ find_pss_gp_prbs_kps = function(gts, L, cks = c("HSP", "POP", "SP")) {
 
   # Combine genopair probabilities for selected kinships and return
   array(
-    c(pss_gp_prbs_ups, pss_gp_prbs_hsps, pss_gp_prbs_pops, pss_gp_prbs_sps),
+    data = c(pss_gp_prbs_ups, pss_gp_prbs_hsps, pss_gp_prbs_pops,
+             pss_gp_prbs_sps),
     dim = c(n_pss_gts, n_pss_gts, L, length(cks) + 1),
-    dimnames = c(
-      pfgps_dimnames, list(kinship = c("UP", close_kps[close_kps %in% cks]))
-    )
+    dimnames = c(dimnames(pss_frst_gt_prbs),
+                 list(kinship = c("UP", close_kps[close_kps %in% cks])))
   )
 }
 

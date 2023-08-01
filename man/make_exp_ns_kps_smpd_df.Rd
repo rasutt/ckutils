@@ -7,6 +7,8 @@
 make_exp_ns_kps_smpd_df(srvy_yrs, exp_ns_kps_smpd)
 }
 \arguments{
+\item{srvy_yrs}{Survey-years}
+
 \item{exp_ns_kps_smpd}{Expected numbers of kin-pairs between sampled animals,
 as output by exp_ns_kps_smpd. A matrix with rows for survey years and
 pairs, and columns for kin-pair types}

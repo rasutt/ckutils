@@ -5,9 +5,13 @@
 \title{Find possible genopair probabilities over multiple loci given multiple
 close-kinships}
 \usage{
-find_pss_gp_prbs_kps(gts, L, cks = c("HSP", "POP", "SP"))
+find_pss_gp_prbs_kps(ind_gts, L, cks = c("HSP", "POP", "SP"))
 }
 \arguments{
+\item{ind_gts}{Genotypes in 2 x L x n_individuals arrays, representing two
+binary SNPs at each locus for each individual, excluding repeated samples
+of the same individual in different surveys}
+
 \item{L}{Number of loci in each genotype}
 
 \item{cks}{Vector of codes representing kinships for which to calculate

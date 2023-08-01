@@ -214,7 +214,7 @@ find_exp_ns_kps_smpd = function(exp_ns_kps_cmbd, k, p) {
 
 #' Make data frame for expected numbers of kin-pairs between sampled animals
 #'
-#' @inheritParams find_exp_ns_kps
+#' @param srvy_yrs Survey-years
 #' @param exp_ns_kps_smpd Expected numbers of kin-pairs between sampled animals,
 #'   as output by exp_ns_kps_smpd. A matrix with rows for survey years and
 #'   pairs, and columns for kin-pair types
