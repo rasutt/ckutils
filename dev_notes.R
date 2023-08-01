@@ -18,7 +18,10 @@ use_build_ignore("dev_notes.R")
 # Make new function file
 use_r("sim_pop")
 use_r("plot_exp_pop")
+use_r("format_prbs")
+use_r("find_obsd_gnpr_prbs")
 rename_files("sim_pop", "sim_pop_study")
+rename_files(old = "find_gpr_prbs", new = "find_pss_gnpr_prbs")
 
 # Load all package functions - simulates the process of building, installing,
 # and attaching (using library()) the package. Ctrl + Shift + L
@@ -68,6 +71,7 @@ test() # Ctrl + Shift + T
 
 use_vignette("simulating-populations-and-studies")
 use_vignette("genopair-probabilities")
+use_vignette("kinship-PLODs")
 
 check()
 

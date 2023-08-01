@@ -1,4 +1,4 @@
-# Functions to find genopair probabilities given various kinships
+# Functions to find possible genopair probabilities given various kinships
 
 #' Find allele frequencies
 #'
@@ -46,6 +46,18 @@ find_pss_gt_prbs = function(ale_frqs) {
   mat
 }
 
+#' Round numeric matrix to two decimal places and convert to data frame for
+#' display
+#'
+#' @param mat Numeric matrix
+#'
+#' @return Data frame rounded to two decimal places
+#' @export
+#'
+#' @examples
+dfr2 = function(mat) {
+  data.frame(round(mat, 2))
+}
 
 #' Find possible first genotype probabilities for genopairs, 3 x 3 x n_loci
 #'
@@ -150,8 +162,9 @@ find_pss_gp_prbs_sps = function(pss_frst_gt_prbs, L) {
 
 #' Find possible genopair probabilities for half-sibling pairs
 #'
-#' @param pss_gp_prbs_ups
-#' @param pss_gp_prbs_pops
+#' @param pss_gp_prbs_ups Possible genopair probabilities for unrelated pairs
+#' @param pss_gp_prbs_pops Possible genopair probabilities for parent-offspring
+#'   pairs
 #'
 #' @return Array with dimensions (number of possible genotypes x number of
 #'   possible genotypes x number of loci)
@@ -233,3 +246,4 @@ find_pss_gp_prbs_kps = function(gts, L, cks = c("HSP", "POP", "SP")) {
     )
   )
 }
+

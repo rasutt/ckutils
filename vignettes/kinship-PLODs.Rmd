@@ -1,0 +1,38 @@
+---
+title: "Kinship PLODs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{kinship-PLODs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ckutils)
+```
+
+```{r}
+# # Load a single simulated study
+# load("../data/possible_genopair_probabilities.RData")
+# 
+# # Get genotypes for sampled animals
+# gts = attributes(pop_study)$ind.gts
+# str(gts)
+# gts[, 1:10, 1:2]
+# 
+# # Find possible genopair probabilities for multiple close-kinships
+# pss_gp_prbs_kps = find_pss_gp_prbs_kps(gts, L, cks = c("HSP", "POP", "SP"))
+# dfr2(pss_gp_prbs_kps[, , "L1", "UP"])
+# dfr2(pss_gp_prbs_kps[, , "L1", "HSP"])
+# dfr2(pss_gp_prbs_kps[, , "L1", "POP"])
+# dfr2(pss_gp_prbs_kps[, , "L1", "SP"])
+
+```
+

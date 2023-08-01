@@ -234,7 +234,7 @@ make_exp_ns_kps_smpd_df <- function(srvy_yrs, exp_ns_kps_smpd) {
   )
 
   # Survey years and pairs
-  s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
+  s_yr_prs = apply(utils::combn(srvy_yrs, 2), 2, paste, collapse = "-")
 
   # Round and make data frame with row and column-names
   exp_ns_kps_smpd_df = data.frame(

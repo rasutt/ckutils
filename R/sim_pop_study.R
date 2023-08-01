@@ -62,7 +62,10 @@ sim_pop_study <- function(
 
   # Set initial genotypes - binary SNPs with zero having initial minor allele
   # frequency
-  gts = array(as.integer(stats::runif(2 * L * N.init) > imaf), c(2, L, N.init))
+  gts = array(
+    data = as.integer(stats::runif(2 * L * N.init) > imaf),
+    dim = c(2, L, N.init)
+  )
 
   # Create vectors for population size and observed survival rates and enter
   # first value
@@ -222,9 +225,11 @@ sim_pop_study <- function(
 
   # Change life statuses to capture histories
   # The capture probability depends on male temporary emigration, and calving
-  cap.hists[alv.s.yrs] <-
-    stats::rbinom(sum(alv.s.yrs), 1, p * (1 - tmp.emgn * !rep(female, k)[alv.s.yrs]) +
-             clvng.hists[alv.s.yrs] * clvng.p)
+  cap.hists[alv.s.yrs] <- stats::rbinom(
+    sum(alv.s.yrs), 1,
+    p * (1 - tmp.emgn * !rep(female, k)[alv.s.yrs]) +
+      clvng.hists[alv.s.yrs] * clvng.p
+  )
 
   # Find numbers calving in survey years
   ns.clvng <- colSums(clvng.hists)
@@ -239,6 +244,12 @@ sim_pop_study <- function(
   # Combine results for captured animals
   pop.hist <-
     data.frame(ID, mum, dad, cap.hists, clvng.hists)[rowSums(cap.hists) > 0, ]
+
+  # Add dimension-names to array of genotypes
+  dimnames(gts) = list(
+    allele = c("maternal", "paternal"), locus = paste0("L", 1:L),
+    animal_ID = paste0("ID", ID)
+  )
 
   # rownames(alv.mat) <- ID
 
