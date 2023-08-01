@@ -34,7 +34,7 @@ The probability of a homozygous genotype $aa$ is approximated by $\mathcal{P}(aa
 
 
 ```{r}
-# Load a single simulated study
+# Load a single simulated study and associated parameters
 load("../data/single_study.RData")
 
 # Get genotypes for sampled animals
@@ -84,12 +84,13 @@ dfr2(pss_gp_prbs_hsps[, , 1])
 # Set number of possible genotypes to allow for more later
 n_pss_gts = 3
 
-# Combine genopair probabilities for selected kinships
+# Combine and save genopair probabilities for selected kinships
 pgps = array(
   c(pss_gp_prbs_ups, pss_gp_prbs_hsps, pss_gp_prbs_pops, pss_gp_prbs_sps),
   dim = c(n_pss_gts, n_pss_gts, L, 4),
   dimnames = c(pfgps_dimnames, list(kinship = c("UP", "HSP", "POP", "SP")))
 )
+save(pgps, file = "../data/possible_genopair_probabilities.RData")
 ```
 
 ## Finding observed kinship-conditional genopair probabilities
@@ -134,17 +135,4 @@ dat = lapply(1:4, function(i) {
 })
 ```
 
-## Finding half-sibling versus unrelated pair PLODs
-
-```{r}
-# Half-sibling versus unrelated pair PLODs
-hsp_up_plods = find_hsp_up_plods(oglps, L)
-
-# Find expected values of half-sibling versus unrelated pair PLODs given various
-# kinships
-exp_plods = find_exp_plods(pgps, L)
-
-# Plot half-sibling versus unrelated pair PLODs on log-scale
-plot_plods(hsp_up_plods, exp_plods, show_legend = F)
-```
 

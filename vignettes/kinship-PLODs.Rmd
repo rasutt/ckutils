@@ -18,21 +18,27 @@ knitr::opts_chunk$set(
 library(ckutils)
 ```
 
-```{r}
-# # Load a single simulated study
-# load("../data/possible_genopair_probabilities.RData")
-# 
-# # Get genotypes for sampled animals
-# gts = attributes(pop_study)$ind.gts
-# str(gts)
-# gts[, 1:10, 1:2]
-# 
-# # Find possible genopair probabilities for multiple close-kinships
-# pss_gp_prbs_kps = find_pss_gp_prbs_kps(gts, L, cks = c("HSP", "POP", "SP"))
-# dfr2(pss_gp_prbs_kps[, , "L1", "UP"])
-# dfr2(pss_gp_prbs_kps[, , "L1", "HSP"])
-# dfr2(pss_gp_prbs_kps[, , "L1", "POP"])
-# dfr2(pss_gp_prbs_kps[, , "L1", "SP"])
+## Finding half-sibling versus unrelated pair PLODs
 
+```{r}
+# Load a single simulated study and associated parameters
+load("../data/single_study.RData")
+
+# Load possible genopair probabilities
+load(file = "../data/possible_genopair_probabilities.RData")
+
+# Load observed genopair probabilities
+load(file = "../data/observed_genopair_probabilities.RData")
+dfr2(head(oglps))
+
+# Half-sibling versus unrelated pair PLODs
+hsp_up_plods = find_hsp_up_plods(oglps, L)
+
+# Find expected values of half-sibling versus unrelated pair PLODs given various
+# kinships
+exp_plods = find_exp_plods(pgps, L)
+
+# Plot half-sibling versus unrelated pair PLODs on log-scale
+plot_plods(hsp_up_plods, exp_plods, show_legend = F)
 ```
 
