@@ -127,19 +127,10 @@
 <span><span class="co"># Per capita birth rate</span></span>
 <span><span class="va">rho</span> <span class="op">=</span> <span class="va">lambda</span> <span class="op">-</span> <span class="va">phi</span></span>
 <span></span>
-<span><span class="co"># Find expected numbers of kin-pairs in population</span></span>
-<span><span class="va">exp_ns_kps</span> <span class="op">=</span> <span class="fu"><a href="reference/find_exp_ns_kps.html">find_exp_ns_kps</a></span><span class="op">(</span></span>
-<span>  <span class="va">exp_N_t</span>, <span class="va">s_yr_inds</span>, <span class="va">phi</span>, <span class="va">rho</span>, <span class="va">lambda</span>, <span class="va">alpha</span>, <span class="va">srvy_yrs</span>, <span class="va">k</span></span>
+<span><span class="co"># Make data frame with expected numbers of kin-pairs between sampled animals</span></span>
+<span><span class="va">exp_ns_kps_smpd_df</span> <span class="op">=</span> <span class="fu"><a href="reference/make_exp_ns_kps_smpd_df.html">make_exp_ns_kps_smpd_df</a></span><span class="op">(</span></span>
+<span>  <span class="va">exp_N_t</span>, <span class="va">s_yr_inds</span>, <span class="va">phi</span>, <span class="va">rho</span>, <span class="va">lambda</span>, <span class="va">alpha</span>, <span class="va">srvy_yrs</span>, <span class="va">k</span>, <span class="va">p</span></span>
 <span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Combine expected numbers of kin-pairs within and between surveys in one matrix</span></span>
-<span><span class="va">exp_ns_kps_cmbd</span> <span class="op">=</span> <span class="fu"><a href="reference/cmbn_exp_ns_kps.html">cmbn_exp_ns_kps</a></span><span class="op">(</span><span class="va">exp_ns_kps</span>, <span class="va">k</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Find expected numbers of kin-pairs between sampled animals</span></span>
-<span><span class="va">exp_ns_kps_smpd</span> <span class="op">=</span> <span class="fu"><a href="reference/find_exp_ns_kps_smpd.html">find_exp_ns_kps_smpd</a></span><span class="op">(</span><span class="va">exp_ns_kps_cmbd</span>, <span class="va">k</span>, <span class="va">p</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="co"># Make it a data frame with row and column-names</span></span>
-<span><span class="va">exp_ns_kps_smpd_df</span> <span class="op">=</span> <span class="fu"><a href="reference/make_exp_ns_kps_smpd_df.html">make_exp_ns_kps_smpd_df</a></span><span class="op">(</span><span class="va">srvy_yrs</span>, <span class="va">exp_ns_kps_smpd</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Display it nicely</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
@@ -268,12 +259,12 @@
 <span><span class="co"># Look at it</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      ID mum dad C2010 C2015 C2020 Cvg2010 Cvg2015 Cvg2020</span></span>
-<span><span class="co">#&gt; 8     8  NA  NA     1     0     0       1       1       0</span></span>
-<span><span class="co">#&gt; 264 264  14  37     0     0     1       1       1       1</span></span>
-<span><span class="co">#&gt; 354 354 125  76     1     0     0       0       0       0</span></span>
-<span><span class="co">#&gt; 373 373  46  72     0     1     0       1       1       1</span></span>
-<span><span class="co">#&gt; 404 404  32 102     1     0     0       1       0       0</span></span>
-<span><span class="co">#&gt; 727 727 348 105     0     0     1       1       1       1</span></span></code></pre></div>
+<span><span class="co">#&gt; 42   42  NA  NA     1     0     0       0       0       0</span></span>
+<span><span class="co">#&gt; 403 403  88  42     0     0     1       0       0       0</span></span>
+<span><span class="co">#&gt; 533 533 115 216     1     1     0       1       1       1</span></span>
+<span><span class="co">#&gt; 540 540  64 123     1     0     0       1       0       0</span></span>
+<span><span class="co">#&gt; 761 761 344 124     0     1     0       1       1       1</span></span>
+<span><span class="co">#&gt; 815 815 179 406     1     0     0       0       0       0</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">pop_study</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "names"       "row.names"   "class"       "avg.phi.obs" "beta"       </span></span>
