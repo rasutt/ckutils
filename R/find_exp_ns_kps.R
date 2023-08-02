@@ -215,16 +215,28 @@ find_exp_ns_kps_smpd = function(exp_ns_kps_cmbd, k, p) {
 #' Make data frame for expected numbers of kin-pairs between sampled animals
 #'
 #' @inheritParams find_exp_ns_kps
-#' @param exp_ns_kps_smpd Expected numbers of kin-pairs between sampled animals,
-#'   as output by exp_ns_kps_smpd. A matrix with rows for survey years and
-#'   pairs, and columns for kin-pair types
+#' @inheritParams find_exp_ns_kps_smpd
 #'
-#' @return A data frame with row and column-names
+#' @return A data frame with rows for survey years and pairs, and columns for
+#'   kin-pair types
 #' @export
 #'
 #' @examples
 #'
-make_exp_ns_kps_smpd_df <- function(srvy_yrs, exp_ns_kps_smpd) {
+make_exp_ns_kps_smpd_df <- function(
+    exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k, p
+) {
+  # Find expected numbers of kin-pairs in population
+  exp_ns_kps = find_exp_ns_kps(
+    exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k
+  )
+
+  # Combine numbers within and between surveys in one matrix
+  exp_ns_kps_cmbd = cmbn_exp_ns_kps(exp_ns_kps, k)
+
+  # Find numbers among only sampled animals
+  exp_ns_kps_smpd = find_exp_ns_kps_smpd(exp_ns_kps_cmbd, k, p)
+
   # Kin-pair types
   kpts = c(
     "Number sampled", "All pairs", "Self-pairs",
@@ -233,7 +245,7 @@ make_exp_ns_kps_smpd_df <- function(srvy_yrs, exp_ns_kps_smpd) {
     "Half-sibling pairs"
   )
 
-  # Survey years and pairs
+  # Survey year pairs
   s_yr_prs = apply(combn(srvy_yrs, 2), 2, paste, collapse = "-")
 
   # Round and make data frame with row and column-names

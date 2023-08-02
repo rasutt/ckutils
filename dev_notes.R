@@ -18,6 +18,7 @@ use_build_ignore("dev_notes.R")
 # Make new function file
 use_r("sim_pop")
 use_r("plot_exp_pop")
+use_r("sim_features")
 rename_files("sim_pop", "sim_pop_study")
 
 # Load all package functions - simulates the process of building, installing,

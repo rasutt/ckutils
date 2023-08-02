@@ -4,15 +4,34 @@
 \alias{make_exp_ns_kps_smpd_df}
 \title{Make data frame for expected numbers of kin-pairs between sampled animals}
 \usage{
-make_exp_ns_kps_smpd_df(srvy_yrs, exp_ns_kps_smpd)
+make_exp_ns_kps_smpd_df(
+  exp_N_t,
+  s_yr_inds,
+  phi,
+  rho,
+  lambda,
+  alpha,
+  srvy_yrs,
+  k,
+  p
+)
 }
 \arguments{
-\item{exp_ns_kps_smpd}{Expected numbers of kin-pairs between sampled animals,
-as output by exp_ns_kps_smpd. A matrix with rows for survey years and
-pairs, and columns for kin-pair types}
+\item{phi}{Individual survival rate}
+
+\item{rho}{Per capita birth rate}
+
+\item{lambda}{Population growth rate}
+
+\item{alpha}{Age of sexual maturity}
+
+\item{k}{Number of survey-years}
+
+\item{p}{Sampling probability}
 }
 \value{
-A data frame with row and column-names
+A data frame with rows for survey years and pairs, and columns for
+kin-pair types
 }
 \description{
 Make data frame for expected numbers of kin-pairs between sampled animals

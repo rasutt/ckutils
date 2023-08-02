@@ -3,6 +3,7 @@
 export(cmbn_exp_ns_kps)
 export(find_exp_ns_kps)
 export(find_exp_ns_kps_smpd)
+export(find_sim_yrs)
 export(make_exp_ns_kps_smpd_df)
 export(plot_exp_pop)
 export(sim_pop_study)

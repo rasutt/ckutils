@@ -88,19 +88,10 @@ k = length(srvy_yrs)
 # Per capita birth rate
 rho = lambda - phi
 
-# Find expected numbers of kin-pairs in population
-exp_ns_kps = find_exp_ns_kps(
-  exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k
+# Make data frame with expected numbers of kin-pairs between sampled animals
+exp_ns_kps_smpd_df = make_exp_ns_kps_smpd_df(
+  exp_N_t, s_yr_inds, phi, rho, lambda, alpha, srvy_yrs, k, p
 )
-
-# Combine expected numbers of kin-pairs within and between surveys in one matrix
-exp_ns_kps_cmbd = cmbn_exp_ns_kps(exp_ns_kps, k)
-
-# Find expected numbers of kin-pairs between sampled animals
-exp_ns_kps_smpd = find_exp_ns_kps_smpd(exp_ns_kps_cmbd, k, p)
-  
-# Make it a data frame with row and column-names
-exp_ns_kps_smpd_df = make_exp_ns_kps_smpd_df(srvy_yrs, exp_ns_kps_smpd)
 
 # Display it nicely
 knitr::kable(
